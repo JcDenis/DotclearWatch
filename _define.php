@@ -20,6 +20,9 @@ $this->registerModule(
             ['php', '7.4'],
             ['core', '2.27'],
         ],
-        'type' => 'plugin',
+        'type'       => 'plugin',
+        'support'    => 'https://github.com/JcDenis/DotclearWatch/issues',
+        'details'    => 'http://plugins.dotaddict.org/dc2/details/DotclearWatch',
+        'repository' => 'https://raw.githubusercontent.com/JcDenis/DotclearWatch/master/dcstore.xml',
     ]
 );
