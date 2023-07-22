@@ -1,5 +1,11 @@
 # README
 
+[![Release](https://img.shields.io/github/v/release/JcDenis/DotclearWatch)](https://github.com/JcDenis/DotclearWatch/releases)
+[![Date](https://img.shields.io/github/release-date/JcDenis/DotclearWatch)](https://github.com/JcDenis/DotclearWatch/releases)
+[![Issues](https://img.shields.io/github/issues/JcDenis/DotclearWatch)](https://github.com/JcDenis/DotclearWatch/issues)
+[![Dotclear](https://img.shields.io/badge/dotclear-v2.27-blue.svg)](https://fr.dotclear.org/download)
+[![Dotaddict](https://img.shields.io/badge/dotaddict-official-green.svg)](https://plugins.dotaddict.org/dc2/details/DotclearWatch)
+[![License](https://img.shields.io/github/license/JcDenis/DotclearWatch)](https://github.com/JcDenis/DotclearWatch/blob/master/LICENSE)
 
 ## WHAT IS DOTCLEARWATCH ?
 
@@ -24,6 +30,7 @@ in aboutConfig global parameters called DotclearWatch->hidden_modules
 
  * super admin permission to intall it
  * Dotclear 2.27
+ * PHP 7.4+
 
 ## USAGE
 

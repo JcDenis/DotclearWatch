@@ -1,5 +1,15 @@
 <?php
-
+/**
+ * @brief DotclearWatch, a plugin for Dotclear 2
+ *
+ * @package Dotclear
+ * @subpackage Plugin
+ *
+ * @author Jean-Christian Denis and contributors
+ *
+ * @copyright Jean-Christain Denis
+ * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
+ */
 declare(strict_types=1);
 
 namespace Dotclear\Plugin\DotclearWatch;
@@ -242,15 +252,15 @@ class Utils
     {
         // Build json response
         return (string) json_encode([
-            'uid'     => self::uid(),
-            'buid'    => self::buid(),
+            'uid'    => self::uid(),
+            'buid'   => self::buid(),
             'plugin' => self::getPlugins(), // enabled plugins
             'theme'  => self::getThemes(), // enabled themes
-            'server'  => [
-                'blogs_count'  => (int) dcCore::app()->getBlogs([], true)->f(0),
-                'core' => DC_VERSION,
-                'php'  => phpversion(),
-                'thm' => (string) dcCore::app()->blog->settings->get('system')->get('theme'), // selected theme
+            'server' => [
+                'blogs_count' => (int) dcCore::app()->getBlogs([], true)->f(0),
+                'core'        => DC_VERSION,
+                'php'         => phpversion(),
+                'thm'         => (string) dcCore::app()->blog->settings->get('system')->get('theme'), // selected theme
             ],
             'database' => [
                 dcCore::app()->con->driver() => dcCore::app()->con->version(),
