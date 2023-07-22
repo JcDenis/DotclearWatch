@@ -37,9 +37,9 @@ class Install extends Process
             );
             $s->put(
                 'distant_api_url',
-                'https://dotclear.watch/report',
+                'https://dotclear.watch/api',
                 'string',
-                'Distant API report URL',
+                'Distant API URL',
                 false,
                 true
             );
