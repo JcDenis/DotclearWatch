@@ -167,7 +167,9 @@ class Utils
                 throw new Exception('bad API response');
             }
         } catch (Exception $e) {
-            dcCore::app()->error->add(__('Dotclear.watch report failed'));
+            if ($force) {
+                dcCore::app()->error->add(__('Dotclear.watch report failed'));
+            }
         }
     }
 
