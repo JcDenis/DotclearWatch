@@ -164,7 +164,7 @@ class Utils
         try {
             $rsp = HttpClient::quickPost(sprintf(self::url(), 'report'), ['key' => self::key(), 'report' => $contents]);
             if ($rsp !== 'ok') {
-                pdump($rsp);
+                throw new Exception('bad API response');
             }
         } catch (Exception $e) {
             dcCore::app()->error->add(__('Dotclear.watch report failed'));
