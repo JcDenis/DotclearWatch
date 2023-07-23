@@ -14,7 +14,7 @@ $this->registerModule(
     'Dotclear Watch',
     'Send report about your Dotclear',
     'Jean-Christian Denis and contributors',
-    '0.1',
+    '0.2',
     [
         'requires' => [
             ['php', '7.4'],
