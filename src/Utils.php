@@ -37,6 +37,9 @@ class Utils
     /** @var    array<int,string>   The hiddens modules IDs */
     private static array $hiddens = [];
 
+    /** @var    string  Multiblog unique identifiant */
+    private static string $uid = '';
+
     /**
      * Add mark to backend menu footer.
      */
@@ -71,7 +74,7 @@ class Utils
     /**
      * Get plugins list.
      *
-     * @param   bool    $strict     tak on ly enabled and not hidden plugins
+     * @param   bool    $strict     take only enabled and not hidden plugins
      *
      * @return  array<string,string>    The plugins list.
      */
@@ -93,7 +96,7 @@ class Utils
     /**
      * Get themes list.
      *
-     * @param   bool    $strict     tak on ly enabled and not hidden themes
+     * @param   bool    $strict     take only enabled and not hidden themes
      *
      * @return  array<string,string>    The themes list.
      */
@@ -125,6 +128,14 @@ class Utils
     public static function getReport(): string
     {
         return self::check() ? self::contents() : '';
+    }
+
+    /**
+     * Get client uid.
+     */
+    public static function getClient(): string
+    {
+        return self::check() ? self::uid() : '';
     }
 
     /**
@@ -175,22 +186,30 @@ class Utils
 
     private static function check(): bool
     {
-        return defined('DC_MASTER_KEY') && defined('DC_CRYPT_ALGO') && defined('DC_TPL_CACHE') && is_dir(DC_TPL_CACHE) && is_writable(DC_TPL_CACHE);
+        return defined('DC_CRYPT_ALGO') && defined('DC_TPL_CACHE') && is_dir(DC_TPL_CACHE) && is_writable(DC_TPL_CACHE);
     }
 
     private static function key(): string
     {
-        return Crypt::hmac(DC_MASTER_KEY, My::id() . __DIR__, DC_CRYPT_ALGO);
+        return Crypt::hmac(self::uid() . My::id(), DC_CRYPT_ALGO);
     }
 
     private static function uid(): string
     {
-        return md5(DC_MASTER_KEY . My::id());
+        if (empty(self::$uid)) {
+            self::$uid = (string) My::settings()->getGlobal('client_uid');
+            if (empty(self::$uid) || strlen(self::$uid) != 32) {
+                self::$uid = md5(uniqid() . My::id() . time());
+                My::settings()->put('client_uid', self::$uid, 'string', 'Client UID', false, true);
+            }
+        }
+
+        return self::$uid;
     }
 
     private static function buid(): string
     {
-        return md5(DC_MASTER_KEY . My::id() . dcCore::app()->blog->uid);
+        return md5(self::uid() . dcCore::app()->blog->uid);
     }
 
     private static function url()

@@ -21,10 +21,12 @@ use Dotclear\Helper\Html\Form\{
     Div,
     Input,
     Label,
+    Li,
     Note,
     Para,
     Text,
-    Textarea
+    Textarea,
+    Ul
 };
 use Dotclear\Helper\Html\Html;
 
@@ -93,7 +95,10 @@ class Config extends Process
         echo
         (new Div())->items([
             (new Text('p', __('Settings are globals. Reports are by blog.')))->class('message'),
-            (new Text('pre', sprintf(__('API %s'), Utils::DISTANT_API_VERSION))),
+            (new Ul())->items([
+                (new Li())->text(sprintf(__('API: %s'), Utils::DISTANT_API_VERSION)),
+                (new Li())->text(sprintf(__('UID: %s'), Utils::getClient())),
+            ]),
             (new Para())->items([
                 (new Label(__('Hidden modules:')))->for('hidden_modules'),
                 (new Input('hidden_modules'))->class('maximal')->size(65)->maxlenght(255)->value(self::$hidden_modules),
