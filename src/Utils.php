@@ -32,7 +32,7 @@ class Utils
     public const DISTANT_API_URL = 'https://dotclear.watch/api';
 
     /** @var    string  The distant API version */
-    public const DISTANT_API_VERSION = '1.0';
+    public const DISTANT_API_VERSION = '1.1';
 
     /** @var    array<int,string>   The hiddens modules IDs */
     private static array $hiddens = [];
@@ -273,18 +273,31 @@ class Utils
     {
         // Build json response
         return (string) json_encode([
-            'uid'    => self::uid(),
-            'buid'   => self::buid(),
-            'plugin' => self::getPlugins(), // enabled plugins
-            'theme'  => self::getThemes(), // enabled themes
-            'server' => [
-                'blogs_count' => (int) dcCore::app()->getBlogs([], true)->f(0),
-                'core'        => DC_VERSION,
-                'php'         => phpversion(),
-                'thm'         => (string) dcCore::app()->blog->settings->get('system')->get('theme'), // selected theme
+            'uid'     => self::uid(),
+            'buid'    => self::buid(),
+            'plugins' => self::getPlugins(), // enabled plugins
+            'themes'  => self::getThemes(), // enabled themes
+            'blog'    => [
+                'lang'  => (string) dcCore::app()->blog->settings->get('system')->get('lang'),
+                'theme' => (string) dcCore::app()->blog->settings->get('system')->get('theme'),
+            ],
+            'blogs' => [
+                'count' => (int) dcCore::app()->getBlogs([], true)->f(0),
+            ],
+            'core' => [
+                'version' => DC_VERSION,
+            ],
+            'php' => [
+                'sapi'    => php_sapi_name() ?: 'php',
+                'version' => phpversion(),
+            ],
+            'system' => [
+                'name'    => php_uname('s'),
+                'version' => php_uname('r'),
             ],
             'database' => [
-                dcCore::app()->con->driver() => dcCore::app()->con->version(),
+                'driver'  => dcCore::app()->con->driver(),
+                'version' => dcCore::app()->con->version(),
             ],
         ], JSON_PRETTY_PRINT);
     }
