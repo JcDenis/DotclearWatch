@@ -20,8 +20,6 @@ use dcModuleDefine;
 use dcThemes;
 use Dotclear\Helper\Crypt;
 use Dotclear\Helper\Date;
-use Dotclear\Helper\File\Files;
-use Dotclear\Helper\File\Path;
 use Dotclear\Helper\Network\HttpClient;
 use Exception;
 
@@ -186,7 +184,7 @@ class Utils
 
         $status   = 500;
         $response = '';
-        $url = sprintf(self::url(), 'report');
+        $url      = sprintf(self::url(), 'report');
         $path     = '';
         if ($client = HttpClient::initClient($url, $path)) {
             try {
@@ -262,8 +260,8 @@ class Utils
         }
 
         $logs = [];
-        while($rs->fetch()) {
-            $logs[] = (int )$rs->f('log_id');
+        while ($rs->fetch()) {
+            $logs[] = (int) $rs->f('log_id');
         }
         dcCore::app()->log->delLogs($logs);
     }
@@ -293,7 +291,7 @@ class Utils
     private static function read(): string
     {
         $rs = dcCore::app()->log->getLogs([
-            'log_table' => My::id() . '_report'
+            'log_table' => My::id() . '_report',
         ]);
 
         return $rs->isEmpty() || !is_string($rs->f('log_msg')) ? '' : $rs->f('log_msg');
@@ -302,10 +300,10 @@ class Utils
     private static function expired(): bool
     {
         $rs = dcCore::app()->log->getLogs([
-            'log_table' => My::id() . '_report'
+            'log_table' => My::id() . '_report',
         ]);
 
-        return $rs->isEmpty() || !is_string($rs->f('log_dt')) || (int) Date::str('%s',$rs->f('log_dt')) + self::EXPIRED_DELAY < time();
+        return $rs->isEmpty() || !is_string($rs->f('log_dt')) || (int) Date::str('%s', $rs->f('log_dt')) + self::EXPIRED_DELAY < time();
     }
 
     private static function contents(): string
