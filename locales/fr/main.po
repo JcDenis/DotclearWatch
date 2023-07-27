@@ -32,7 +32,7 @@ msgid "Distant API URL:"
 msgstr "URL de l'API distante :"
 
 msgid "This is the URL of the API to send report. Leave empty to reset value."
-msgstr "C'est L'URL de l'API où sera envoyer le rapport. Laisser vide pour remettre par défaut."
+msgstr "C'est L'URL de l'API où sera envoyé le rapport. Laisser vide pour remettre par défaut."
 
 msgid "Clear reports cache directory"
 msgstr "Nettoyer le répertoire de cache des rapports."
@@ -44,7 +44,7 @@ msgid "Send report now"
 msgstr "Envoyer le rapport maintenant"
 
 msgid "This sent report for current blog even if report exists in cache."
-msgstr "Ceci envoie le rapport pou r le blog courant même si un rapport existe en cache."
+msgstr "Ceci envoie le rapport pour le blog courant même si un rapport existe en cache."
 
 msgid "Report that will be sent for this blog:"
 msgstr "Rapport qui sera envoyé pour ce blog :"
