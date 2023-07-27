@@ -15,9 +15,11 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\DotclearWatch;
 
 use dcCore;
+use dcLog;
 use dcModuleDefine;
 use dcThemes;
 use Dotclear\Helper\Crypt;
+use Dotclear\Helper\Date;
 use Dotclear\Helper\File\Files;
 use Dotclear\Helper\File\Path;
 use Dotclear\Helper\Network\HttpClient;
@@ -139,6 +141,18 @@ class Utils
     }
 
     /**
+     * Get request error.
+     */
+    public static function getError(): string
+    {
+        $rs = dcCore::app()->log->getLogs([
+            'log_table' => My::id() . '_error',
+        ]);
+
+        return $rs->isEmpty() || !is_string($rs->f('log_msg')) ? '' : $rs->f('log_msg');
+    }
+
+    /**
      * Clear cache directory.
      */
     public static function clearCache(): void
@@ -162,31 +176,46 @@ class Utils
             return;
         }
 
-        $file = self::file();
-
-        if (!$force && !self::expired($file)) {
+        if (!$force && !self::expired()) {
             return;
         }
 
         $contents = self::contents();
 
-        self::write($file, $contents);
+        self::write($contents);
 
-        try {
-            $rsp = HttpClient::quickPost(sprintf(self::url(), 'report'), ['key' => self::key(), 'report' => $contents]);
-            if ($rsp !== 'ok') {
-                throw new Exception('bad API response');
+        $status   = 500;
+        $response = '';
+        $url = sprintf(self::url(), 'report');
+        $path     = '';
+        if ($client = HttpClient::initClient($url, $path)) {
+            try {
+                $client->setUserAgent('Dotclear.watch ' . My::id() . '/' . self::DISTANT_API_VERSION);
+                $client->useGzip(false);
+                $client->setPersistReferers(false);
+                $client->post($path, ['key' => self::key(), 'report' => $contents]);
+
+                $status   = $client->getStatus();
+                $response = $client->getContent();
+                unset($client);
+                if ($status != 202) {
+                    self::error((string) '(' . $status . ') ' . $response);
+                }
+
+                return;
+            } catch (Exception $e) {
+                unset($client);
             }
-        } catch (Exception $e) {
-            if ($force) {
-                dcCore::app()->error->add(__('Dotclear.watch report failed'));
-            }
+        }
+
+        if ($force) {
+            self::error('Dotclear.watch report failed');
         }
     }
 
     private static function check(): bool
     {
-        return defined('DC_CRYPT_ALGO') && defined('DC_TPL_CACHE') && is_dir(DC_TPL_CACHE) && is_writable(DC_TPL_CACHE);
+        return defined('DC_CRYPT_ALGO');
     }
 
     private static function key(): string
@@ -212,61 +241,71 @@ class Utils
         return md5(self::uid() . dcCore::app()->blog->uid);
     }
 
-    private static function url()
+    private static function url(): string
     {
         $api_url = My::settings()->getGlobal('distant_api_url');
 
         return (is_string($api_url) ? $api_url : self::DISTANT_API_URL) . '/' . self::DISTANT_API_VERSION . '/%s/' . self::uid();
     }
 
-    private static function file(): string
-    {
-        $file = self::buid();
-
-        return sprintf(
-            '%s/%s/%s/%s/%s.json',
-            (string) Path::real(DC_TPL_CACHE),
-            My::id(),
-            substr($file, 0, 2),
-            substr($file, 2, 2),
-            $file
-        );
-    }
-
     private static function clear(): void
     {
-        $path = (string) Path::real(DC_TPL_CACHE) . DIRECTORY_SEPARATOR . My::id();
-        if (is_dir($path)) {
-            Files::delTree($path);
+        $rs = dcCore::app()->log->getLogs([
+            'log_table' => [
+                My::id() . '_report',
+                My::id() . '_error',
+            ],
+        ]);
+
+        if ($rs->isEmpty()) {
+            return;
         }
+
+        $logs = [];
+        while($rs->fetch()) {
+            $logs[] = (int )$rs->f('log_id');
+        }
+        dcCore::app()->log->delLogs($logs);
     }
 
-    private static function write(string $file, string $contents): void
+    private static function error(string $message): void
     {
-        $dir = dirname($file);
-        if (!is_dir($dir)) {
-            Files::makeDir($dir, true);
-        }
-        file_put_contents($file, $contents);
+        self::clear();
+
+        $cur = dcCore::app()->con->openCursor(dcCore::app()->prefix . dcLog::LOG_TABLE_NAME);
+        $cur->setField('log_table', My::id() . '_error');
+        $cur->setField('log_msg', $message);
+
+        dcCore::app()->log->addLog($cur);
     }
 
-    private static function read(string $file): string
+    private static function write(string $contents): void
     {
-        return is_file($file) && is_readable($file) ? (string) file_get_contents($file) : '';
+        self::clear();
+
+        $cur = dcCore::app()->con->openCursor(dcCore::app()->prefix . dcLog::LOG_TABLE_NAME);
+        $cur->setField('log_table', My::id() . '_report');
+        $cur->setField('log_msg', $contents);
+
+        dcCore::app()->log->addLog($cur);
     }
 
-    private static function expired(string $file): bool
+    private static function read(): string
     {
-        if (!is_file($file) || !is_readable($file) || ($time = filemtime($file)) === false) {
-            return true;
-        }
+        $rs = dcCore::app()->log->getLogs([
+            'log_table' => My::id() . '_report'
+        ]);
 
-        $time = date('U', $time);
-        if (!is_numeric($time) || (int) $time + self::EXPIRED_DELAY < time()) {
-            return true;
-        }
+        return $rs->isEmpty() || !is_string($rs->f('log_msg')) ? '' : $rs->f('log_msg');
+    }
 
-        return false;
+    private static function expired(): bool
+    {
+        $rs = dcCore::app()->log->getLogs([
+            'log_table' => My::id() . '_report'
+        ]);
+
+        return $rs->isEmpty() || !is_string($rs->f('log_dt')) || (int) Date::str('%s',$rs->f('log_dt')) + self::EXPIRED_DELAY < time();
     }
 
     private static function contents(): string

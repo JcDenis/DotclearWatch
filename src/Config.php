@@ -78,7 +78,12 @@ class Config extends Process
 
         if (!empty($_POST['send_report'])) {
             Utils::sendReport(true);
-            Notices::AddSuccessNotice(__('Report sent.'));
+            $error = Utils::getError();
+            if (!empty($error)) {
+                Notices::AddWarningNotice($error);
+            } else {
+                Notices::AddSuccessNotice(__('Report sent.'));
+            }
         }
 
         dcCore::app()->admin->url->redirect('admin.plugins', ['module' => My::id(), 'conf' => '1']);
