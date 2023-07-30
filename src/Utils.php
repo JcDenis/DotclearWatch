@@ -45,8 +45,14 @@ class Utils
      */
     public static function addMark(): void
     {
-        if (My::settings()->get('distant_api_url')) {
-            echo '<p>' . __('/!\ Tracked by dotclear.watch') . '</p>';
+        if (My::settings()->getGlobal('distant_api_url')) {
+            echo sprintf(
+                '<ul><li><a href="%s" title="%s" class="outgoing">%s<img src="%s" /></a></ul></li>',
+                'https://dotclear.watch/statistics',
+                __('DotclearWatch plugin statistics'),
+                __('Tracked by dotclear.watch'),
+                My::fileURL('icon.svg')
+            );
         }
     }
 
