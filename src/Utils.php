@@ -48,7 +48,7 @@ class Utils
         if (My::settings()->getGlobal('distant_api_url')) {
             echo sprintf(
                 '<ul><li><a href="%s" title="%s" class="outgoing">%s<img src="%s" /></a></ul></li>',
-                'https://dotclear.watch/statistics',
+                'https://statistics.dotclear.watch',
                 __('DotclearWatch plugin statistics'),
                 __('Tracked by dotclear.watch'),
                 My::fileURL('icon.svg')
