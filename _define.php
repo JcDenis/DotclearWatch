@@ -14,15 +14,15 @@ $this->registerModule(
     'Dotclear Watch',
     'Send report about your Dotclear',
     'Jean-Christian Denis and contributors',
-    '0.5',
+    '0.6',
     [
         'requires' => [
             ['php', '7.4'],
             ['core', '2.27'],
         ],
         'type'       => 'plugin',
-        'support'    => 'https://github.com/JcDenis/DotclearWatch/issues',
-        'details'    => 'http://plugins.dotaddict.org/dc2/details/DotclearWatch',
-        'repository' => 'https://raw.githubusercontent.com/JcDenis/DotclearWatch/master/dcstore.xml',
+        'support'    => 'https://git.dotclear.watch/JcDenis/' . basename(__DIR__) . '/issues',
+        'details'    => 'https://git.dotclear.watch/JcDenis/' . basename(__DIR__) . '/src/branch/master/README.md',
+        'repository' => 'https://git.dotclear.watch/JcDenis/' . basename(__DIR__) . '/raw/branch/master/dcstore.xml',
     ]
 );
