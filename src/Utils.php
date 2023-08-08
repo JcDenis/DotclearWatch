@@ -188,28 +188,46 @@ class Utils
 
         self::write($contents);
 
+        $client   = false;
         $status   = 500;
         $response = '';
         $url      = sprintf(self::url(), 'report');
-        $path     = '';
-        if ($client = HttpClient::initClient($url, $path)) {
-            try {
-                $client->setUserAgent('Dotclear.watch ' . My::id() . '/' . self::DISTANT_API_VERSION);
-                $client->useGzip(false);
-                $client->setPersistReferers(false);
-                $client->post($path, ['key' => self::key(), 'report' => $contents]);
 
-                $status   = $client->getStatus();
-                $response = $client->getContent();
-                unset($client);
-                if ($status != 202) {
-                    self::error((string) '(' . $status . ') ' . $response);
+        try {
+            if (function_exists('curl_init')) {
+                if (false !== ($client = curl_init($url))) {
+                    curl_setopt($client, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($client, CURLOPT_POST, true);
+                    curl_setopt($client, CURLOPT_POSTFIELDS, ['key' => self::key(), 'report' => $contents]);
+
+                    if (false !== ($response = curl_exec($client))) {
+                        $status = (int) curl_getinfo($client, CURLINFO_HTTP_CODE);
+                    }
                 }
+            } else {
+                $path = '';
+                if (false !== ($client = HttpClient::initClient($url, $path))) {
+                    $client->setUserAgent('Dotclear.watch ' . My::id() . '/' . self::DISTANT_API_VERSION);
+                    $client->useGzip(false);
+                    $client->setPersistReferers(false);
+                    $client->post($path, ['key' => self::key(), 'report' => $contents]);
 
-                return;
-            } catch (Exception $e) {
-                unset($client);
+                    $status   = (int) $client->getStatus();
+                    $response = $client->getContent();
+                }
             }
+
+            unset($client);
+        } catch (Exception $e) {
+            unset($client);
+        }
+
+        if ($status == 202) {
+            return;
+        }
+
+        if ($status !== false) {
+            self::error((string) '(' . $status . ') ' . $response);
         }
 
         if ($force) {
