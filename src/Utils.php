@@ -192,9 +192,18 @@ class Utils
         $status   = 500;
         $response = '';
         $url      = sprintf(self::url(), 'report');
+        $path     = '';
 
         try {
-            if (function_exists('curl_init')) {
+            if (false !== ($client = HttpClient::initClient($url, $path))) {
+                $client->setUserAgent('Dotclear.watch ' . My::id() . '/' . self::DISTANT_API_VERSION);
+                $client->useGzip(false);
+                $client->setPersistReferers(false);
+                $client->post($path, ['key' => self::key(), 'report' => $contents]);
+
+                $status   = (int) $client->getStatus();
+                $response = $client->getContent();
+            } elseif (function_exists('curl_init')) {
                 if (false !== ($client = curl_init($url))) {
                     curl_setopt($client, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($client, CURLOPT_POST, true);
@@ -203,17 +212,6 @@ class Utils
                     if (false !== ($response = curl_exec($client))) {
                         $status = (int) curl_getinfo($client, CURLINFO_HTTP_CODE);
                     }
-                }
-            } else {
-                $path = '';
-                if (false !== ($client = HttpClient::initClient($url, $path))) {
-                    $client->setUserAgent('Dotclear.watch ' . My::id() . '/' . self::DISTANT_API_VERSION);
-                    $client->useGzip(false);
-                    $client->setPersistReferers(false);
-                    $client->post($path, ['key' => self::key(), 'report' => $contents]);
-
-                    $status   = (int) $client->getStatus();
-                    $response = $client->getContent();
                 }
             }
 
