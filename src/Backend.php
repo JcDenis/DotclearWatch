@@ -30,12 +30,24 @@ class Backend extends Process
             return false;
         }
 
-        //My::addBackendMenuItem();
-
         dcCore::app()->addBehaviors([
-            'adminDashboardHeaders' => [Utils::class, 'sendReport'],
-            'adminPageFooterV2'     => [Utils::class, 'addMark'],
+            'adminDashboardHeaders' => function (): string {
+                return My::jsLoad('service', dcCore::app()->getVersion(My::id()));
+            },
+            'adminPageFooterV2' => [Utils::class, 'addMark'],
         ]);
+
+        dcCore::app()->rest->addFunction(
+            'adminDotclearWatchSendReport',
+            function (): array {
+                Utils::sendReport();
+
+                return [
+                    'ret' => true,
+                    'msg' => 'report sent',
+                ];
+            },
+        );
 
         return true;
     }
