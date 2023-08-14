@@ -1,3 +1,10 @@
+DotclearWatch 0.7.1 - 2023.08.14
+===========================================================
+* Require dotclear 2.27
+* Require php 7.4
+* Fix help URLs, fix #2
+* Fix server public URL
+
 DotclearWatch 0.7 - 2023.08.12
 ===========================================================
 * require dotclear 2.27
