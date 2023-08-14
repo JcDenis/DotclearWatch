@@ -21,8 +21,8 @@ $this->registerModule(
             ['core', '2.27'],
         ],
         'type'       => 'plugin',
-        'support'    => 'https://git.dotclear.watch/JcDenis/' . basename(__DIR__) . '/issues',
-        'details'    => 'https://git.dotclear.watch/JcDenis/' . basename(__DIR__) . '/src/branch/master/README.md',
-        'repository' => 'https://git.dotclear.watch/JcDenis/' . basename(__DIR__) . '/raw/branch/master/dcstore.xml',
+        'support'    => 'https://git.dotclear.watch/dw/' . basename(__DIR__) . '/issues',
+        'details'    => 'https://git.dotclear.watch/dw/' . basename(__DIR__) . '/src/branch/master/README.md',
+        'repository' => 'https://git.dotclear.watch/dw/' . basename(__DIR__) . '/raw/branch/master/dcstore.xml',
     ]
 );

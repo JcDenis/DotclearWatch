@@ -12,7 +12,7 @@
 web publishing software called Dotclear.
 
 It tracks Dotclear's installation to get stats about it.
-Default statistics server is located at https://dotclear.watch/statistics
+Default statistics server is located at https://stat.dotclear.watch
 
 What's being track :
 * Dotclear version,
