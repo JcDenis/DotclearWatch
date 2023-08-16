@@ -97,7 +97,6 @@ class Config extends Process
             return;
         }
 
-
         echo
         (new Div())->items([
             (new Text('p', __('Settings are globals. Reports are by blog.')))->class('message'),
