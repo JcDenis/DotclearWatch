@@ -1,3 +1,10 @@
+DotclearWatch 0.7.2 - 2023.08.16
+===========================================================
+* Require dotclear 2.27
+* Require php 7.4
+* Fix unset user prefs
+* Change page footer
+
 DotclearWatch 0.7.1 - 2023.08.14
 ===========================================================
 * Require dotclear 2.27

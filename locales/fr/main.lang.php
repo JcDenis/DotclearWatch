@@ -11,6 +11,8 @@
 
 use Dotclear\Helper\L10n;
 
+L10n::$locales['Uses DotclearWatch plugin statistics']                                                = 'Utilise le plugin de statistiques DotclearWatch';
+L10n::$locales['Shared statistics']                                                                   = 'Statistiques partagées';
 L10n::$locales['Cache directory sucessfully cleared.']                                                = 'Répertoire de cache des rapports nettoyé.';
 L10n::$locales['Settings successfully updated.']                                                      = 'Paramètres mis à jour.';
 L10n::$locales['Report sent.']                                                                        = 'Rapport envoyé.';
