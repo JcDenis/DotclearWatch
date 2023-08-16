@@ -41,22 +41,6 @@ class Utils
     private static string $uid = '';
 
     /**
-     * Add mark to backend menu footer.
-     */
-    public static function addMark(): void
-    {
-        if (My::settings()->getGlobal('distant_api_url')) {
-            echo sprintf(
-                '<ul><li><a href="%s" title="%s" class="outgoing">%s<img src="%s" /></a></ul></li>',
-                'https://stat.dotclear.watch',
-                __('DotclearWatch plugin statistics'),
-                __('Tracked by dotclear.watch'),
-                My::fileURL('icon.svg')
-            );
-        }
-    }
-
-    /**
      * Get hidden modules.
      *
      * This does not check if module exists.

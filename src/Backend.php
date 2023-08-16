@@ -34,7 +34,17 @@ class Backend extends Process
             'adminDashboardHeaders' => function (): string {
                 return My::jsLoad('service', dcCore::app()->getVersion(My::id()));
             },
-            'adminPageFooterV2' => [Utils::class, 'addMark'],
+            'adminPageFooterV2' => function(): void {
+                if (My::settings()->getGlobal('distant_api_url')) {
+                    echo sprintf(
+                        '<ul><li><a href="%s" title="%s" class="outgoing">%s<img src="%s" /></a></ul></li>',
+                        'https://stat.dotclear.watch',
+                        __('Uses DotclearWatch plugin statistics'),
+                        __('Shared statistics'),
+                        My::fileURL('icon.svg')
+                    );
+                }
+            },
         ]);
 
         dcCore::app()->rest->addFunction(
