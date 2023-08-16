@@ -46,7 +46,7 @@ class Config extends Process
             return false;
         }
 
-        if (dcCore::app()->auth->user_prefs->get('interface')->get('colorsyntax')) {
+        if (self::useColorSynthax()) {
             dcCore::app()->addBehavior('pluginsToolsHeadersV2', fn (bool $plugin): string => Page::jsLoadCodeMirror(dcCore::app()->auth->user_prefs->get('interface')->get('colorsyntax_theme')));
         }
 
@@ -97,6 +97,7 @@ class Config extends Process
             return;
         }
 
+
         echo
         (new Div())->items([
             (new Text('p', __('Settings are globals. Reports are by blog.')))->class('message'),
@@ -138,9 +139,14 @@ class Config extends Process
                 ->class('maximal'),
             ])->render() .
             (
-                !dcCore::app()->auth->user_prefs->get('interface')->get('colorsyntax') ? '' :
-                Page::jsRunCodeMirror(My::id() . 'editor', 'report_contents', 'json', dcCore::app()->auth->user_prefs->get('interface')->get('colorsyntax_theme'))
+                self::useColorSynthax() ?
+                Page::jsRunCodeMirror(My::id() . 'editor', 'report_contents', 'json', dcCore::app()->auth->user_prefs->get('interface')->get('colorsyntax_theme')) : ''
             );
         }
+    }
+
+    private static function useColorSynthax(): bool
+    {
+        return dcCore::app()->auth->user_prefs->get('interface')->get('colorsyntax') && '' != dcCore::app()->auth->user_prefs->get('interface')->get('colorsyntax_theme');
     }
 }
