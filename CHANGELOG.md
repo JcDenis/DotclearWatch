@@ -1,3 +1,10 @@
+DotclearWatch 0.7.2 - 2023.08.26
+===========================================================
+* Require dotclear 2.27
+* Require php 7.4
+* fix type hint
+* fix README
+
 DotclearWatch 0.7.2 - 2023.08.16
 ===========================================================
 * Require dotclear 2.27

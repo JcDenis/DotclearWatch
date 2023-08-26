@@ -1,15 +1,16 @@
 # README
 
-[![Release](https://img.shields.io/badge/release-0.7-a2cbe9.svg)](https://git.dotclear.watch/dw/DotclearWatch/releases)
-[![Date](https://img.shields.io/badge/date-2023.08.12-c44d58.svg)](https://git.dotclear.watch/dw/DotclearWatch/releases)
+[![Release](https://img.shields.io/badge/release-0.7.3-a2cbe9.svg)](https://git.dotclear.watch/dw/DotclearWatch/releases)
+![Date](https://img.shields.io/badge/date-2023.08.26-c44d58.svg)]
 [![Dotclear](https://img.shields.io/badge/dotclear-v2.27-137bbb.svg)](https://fr.dotclear.org/download)
 [![Dotaddict](https://img.shields.io/badge/dotaddict-official-9ac123.svg)](https://plugins.dotaddict.org/dc2/details/DotclearWatch)
-[![License](https://img.shields.io/github/license/JcDenis/DotclearWatch)](https://git.dotclear.watch/dw/DotclearWatch/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/license-GPL--2.0-ececec.svg)](https://git.dotclear.watch/dw/DotclearWatch/src/branch/master/LICENSE)
 
-## WHAT IS DOTCLEARWATCH ?
+## ABOUT
 
-"dotclear watch" is a plugin for the open-source 
-web publishing software called Dotclear.
+_dotclear watch_  is a plugin for the open-source web publishing software called [Dotclear](https://www.dotclear.org).
+
+> Send report about your Dotclear
 
 It tracks Dotclear's installation to get stats about it.
 Default statistics server is located at https://stat.dotclear.watch
@@ -28,8 +29,6 @@ in aboutConfig global parameters called DotclearWatch->hidden_modules
 
 ## REQUIREMENTS
 
-DotclearWatch requires: 
-
 * super admin permission to intall it
 * Dotclear 2.27
 * PHP 7.4+
@@ -43,10 +42,10 @@ To disable sending stats, just deactivate or uninstall this plugin.
 
 ## LINKS
 
-* License : [GNU GPL v2](https://www.gnu.org/licenses/old-licenses/lgpl-2.0.html)
-* Source & contributions : [Gitea Page](https://git.dotclear.watch/dw/DotclearWatch) or [GitHub Page](https://github.com/JcDenis/DotclearWatch)
-* Packages & details :  [Gitea Page](https://git.dotclear.watch/dw/DotclearWatch/releases) or[Dotaddict Page](https://plugins.dotaddict.org/dc2/details/DotclearWatch)
-* Discussion & Help : [Gitea Page](https://github.com/dw/DotclearWatch/issues)
+* [License](https://git.dotclear.watch/dw/DotclearWatch/src/branch/master/LICENSE)
+* [Packages & details](https://git.dotclear.watch/dw/DotclearWatch/releases) (or on [Dotaddict](https://plugins.dotaddict.org/dc2/details/DotclearWatch))
+* [Sources & contributions](https://git.dotclear.watch/dw/DotclearWatch) (or on [GitHub](https://github.com/JcDenis/DotclearWatch))
+* [Issues & security](https://git.dotclear.watch/dw/DotclearWatch/issues) (or on [GitHub](https://github.com/JcDenis/DotclearWatch/issues))
 
 ## CONTRIBUTORS
 

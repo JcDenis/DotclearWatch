@@ -19,7 +19,6 @@ use dcLog;
 use dcModuleDefine;
 use dcThemes;
 use Dotclear\Helper\Crypt;
-use Dotclear\Helper\Date;
 use Dotclear\Helper\Network\HttpClient;
 use Exception;
 

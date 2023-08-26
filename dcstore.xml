@@ -2,10 +2,10 @@
 <modules xmlns:da="http://dotaddict.org/da/">
   <module id="DotclearWatch">
     <name>Dotclear Watch</name>
-    <version>0.7.2</version>
+    <version>0.7.3</version>
     <author>Jean-Christian Denis and contributors</author>
     <desc>Send report about your Dotclear</desc>
-    <file>https://git.dotclear.watch/dw/DotclearWatch/releases/download/v0.7.2/plugin-DotclearWatch.zip</file>
+    <file>https://git.dotclear.watch/dw/DotclearWatch/releases/download/v0.7.3/plugin-DotclearWatch.zip</file>
     <da:dcmin>2.27</da:dcmin>
     <da:details>https://git.dotclear.watch/dw/DotclearWatch/src/branch/master/README.md</da:details>
     <da:support>https://git.dotclear.watch/dw/DotclearWatch/issues</da:support>
