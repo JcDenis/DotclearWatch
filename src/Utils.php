@@ -309,7 +309,7 @@ class Utils
             'log_table' => My::id() . '_report',
         ]);
 
-        return $rs->isEmpty() || !is_string($rs->f('log_dt')) || (int) Date::str('%s', $rs->f('log_dt')) + self::EXPIRED_DELAY < time();
+        return $rs->isEmpty() || !is_string($rs->f('log_dt')) || (int) strtotime($rs->f('log_dt')) + self::EXPIRED_DELAY < time();
     }
 
     private static function contents(): string
