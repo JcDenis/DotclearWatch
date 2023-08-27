@@ -110,6 +110,31 @@ class Utils
     }
 
     /**
+     * Get server software and version.
+     *
+     * @return  array<string,string> The server info
+     */
+    public static function getServer(): array
+    {
+        $res = [
+            'name'    => 'undefined',
+            'version' => 'undefined',
+        ];
+
+        if (!empty($_SERVER['SERVER_SOFTWARE'])) {
+            $exp = explode('/', $_SERVER['SERVER_SOFTWARE']);
+            if (count($exp) == 2) {
+                $res = [
+                    'name'    => $exp[0],
+                    'version' => $exp[1],
+                ];
+            }
+        }
+
+        return $res;
+    }
+
+    /**
      * Get report contents.
      *
      * @return  string  The report contents as it will be sent
@@ -329,7 +354,8 @@ class Utils
             'core' => [
                 'version' => DC_VERSION,
             ],
-            'php' => [
+            'server' => self::getServer(),
+            'php'    => [
                 'sapi'    => php_sapi_name() ?: 'php',
                 'version' => phpversion(),
             ],
