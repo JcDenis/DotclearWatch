@@ -1,3 +1,9 @@
+DotclearWatch 0.8 - 2023.08.27
+===========================================================
+* Require dotclear 2.27
+* Require php 7.4
+* Add web server name and version to stats
+
 DotclearWatch 0.7.2 - 2023.08.26
 ===========================================================
 * Require dotclear 2.27
