@@ -14,11 +14,11 @@ $this->registerModule(
     'Dotclear Watch',
     'Send report about your Dotclear',
     'Jean-Christian Denis and contributors',
-    '0.8',
+    '0.9',
     [
         'requires' => [
-            ['php', '7.4'],
-            ['core', '2.27'],
+            ['php', '8.1'],
+            ['core', '2.28'],
         ],
         'type'       => 'plugin',
         'support'    => 'https://git.dotclear.watch/dw/' . basename(__DIR__) . '/issues',

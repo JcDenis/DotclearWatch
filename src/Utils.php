@@ -14,12 +14,10 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\DotclearWatch;
 
-use dcCore;
-use dcLog;
-use dcModuleDefine;
-use dcThemes;
+use Dotclear\App;
 use Dotclear\Helper\Crypt;
 use Dotclear\Helper\Network\HttpClient;
+use Dotclear\Module\ModuleDefine;
 use Exception;
 
 class Utils
@@ -71,7 +69,7 @@ class Utils
     {
         $modules = [];
         $hiddens = self::getHiddens();
-        $defines = dcCore::app()->plugins->getDefines($strict ? ['state' => dcModuleDefine::STATE_ENABLED] : []);
+        $defines = App::plugins()->getDefines($strict ? ['state' => ModuleDefine::STATE_ENABLED] : []);
         foreach ($defines as $define) {
             if ($strict && in_array($define->getId(), $hiddens)) {
                 continue;
@@ -91,14 +89,13 @@ class Utils
      */
     public static function getThemes(bool $strict = true): array
     {
-        if (!(dcCore::app()->themes instanceof dcThemes)) {
-            dcCore::app()->themes = new dcThemes();
-            dcCore::app()->themes->loadModules(dcCore::app()->blog->themes_path);
+        if (App::themes()->isEmpty()) {
+            App::themes()->loadModules(App::blog()->themesPath());
         }
 
         $modules = [];
         $hiddens = self::getHiddens();
-        $defines = dcCore::app()->themes->getDefines($strict ? ['state' => dcModuleDefine::STATE_ENABLED] : []);
+        $defines = App::themes()->getDefines($strict ? ['state' => ModuleDefine::STATE_ENABLED] : []);
         foreach ($defines as $define) {
             if ($strict && in_array($define->getId(), $hiddens)) {
                 continue;
@@ -157,7 +154,7 @@ class Utils
      */
     public static function getError(): string
     {
-        $rs = dcCore::app()->log->getLogs([
+        App::log()->getLogs([
             'log_table' => My::id() . '_error',
         ]);
 
@@ -266,7 +263,7 @@ class Utils
 
     private static function buid(): string
     {
-        return md5(self::uid() . dcCore::app()->blog->uid);
+        return md5(self::uid() . App::blog()->uid());
     }
 
     private static function url(): string
@@ -278,7 +275,7 @@ class Utils
 
     private static function clear(): void
     {
-        $rs = dcCore::app()->log->getLogs([
+        App::log()->getLogs([
             'log_table' => [
                 My::id() . '_report',
                 My::id() . '_error',
@@ -293,34 +290,34 @@ class Utils
         while ($rs->fetch()) {
             $logs[] = (int) $rs->f('log_id');
         }
-        dcCore::app()->log->delLogs($logs);
+        App::log()->delLogs($logs);
     }
 
     private static function error(string $message): void
     {
         self::clear();
 
-        $cur = dcCore::app()->con->openCursor(dcCore::app()->prefix . dcLog::LOG_TABLE_NAME);
+        $cur = App::log()->openLogCursor();
         $cur->setField('log_table', My::id() . '_error');
         $cur->setField('log_msg', $message);
 
-        dcCore::app()->log->addLog($cur);
+        App::log()->addLog($cur);
     }
 
     private static function write(string $contents): void
     {
         self::clear();
 
-        $cur = dcCore::app()->con->openCursor(dcCore::app()->prefix . dcLog::LOG_TABLE_NAME);
+        $cur = App::log()->openLogCursor();
         $cur->setField('log_table', My::id() . '_report');
         $cur->setField('log_msg', $contents);
 
-        dcCore::app()->log->addLog($cur);
+        App::log()->addLog($cur);
     }
 
     private static function read(): string
     {
-        $rs = dcCore::app()->log->getLogs([
+        App::log()->getLogs([
             'log_table' => My::id() . '_report',
         ]);
 
@@ -329,7 +326,7 @@ class Utils
 
     private static function expired(): bool
     {
-        $rs = dcCore::app()->log->getLogs([
+        App::log()->getLogs([
             'log_table' => My::id() . '_report',
         ]);
 
@@ -345,11 +342,11 @@ class Utils
             'plugins' => self::getPlugins(), // enabled plugins
             'themes'  => self::getThemes(), // enabled themes
             'blog'    => [
-                'lang'  => (string) dcCore::app()->blog->settings->get('system')->get('lang'),
-                'theme' => (string) dcCore::app()->blog->settings->get('system')->get('theme'),
+                'lang'  => (string) App::blog()->settings()->get('system')->get('lang'),
+                'theme' => (string) App::blog()->settings()->get('system')->get('theme'),
             ],
             'blogs' => [
-                'count' => (int) dcCore::app()->getBlogs([], true)->f(0),
+                'count' => (int) App::blogs()->getBlogs([], true)->f(0),
             ],
             'core' => [
                 'version' => DC_VERSION,
@@ -364,8 +361,8 @@ class Utils
                 'version' => php_uname('r'),
             ],
             'database' => [
-                'driver'  => dcCore::app()->con->driver(),
-                'version' => dcCore::app()->con->version(),
+                'driver'  => App::con()->driver(),
+                'version' => App::con()->version(),
             ],
         ], JSON_PRETTY_PRINT);
     }

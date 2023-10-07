@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\DotclearWatch;
 
-use dcCore;
+use Dotclear\App;
 use Dotclear\Core\Backend\Notices;
 use Dotclear\Core\Backend\Page;
 use Dotclear\Core\Process;
@@ -47,7 +47,7 @@ class Config extends Process
         }
 
         if (self::useColorSynthax()) {
-            dcCore::app()->addBehavior('pluginsToolsHeadersV2', fn (bool $plugin): string => Page::jsLoadCodeMirror(dcCore::app()->auth->user_prefs->get('interface')->get('colorsyntax_theme')));
+            App::behavior()->addBehavior('pluginsToolsHeadersV2', fn (bool $plugin): string => Page::jsLoadCodeMirror(App::auth()->prefs()->get('interface')->get('colorsyntax_theme')));
         }
 
         self::$hidden_modules  = (string) My::settings()->getGlobal('hidden_modules');
@@ -86,7 +86,7 @@ class Config extends Process
             }
         }
 
-        dcCore::app()->admin->url->redirect('admin.plugins', ['module' => My::id(), 'conf' => '1']);
+        App::backend()->url->redirect('admin.plugins', ['module' => My::id(), 'conf' => '1']);
 
         return true;
     }
@@ -139,13 +139,13 @@ class Config extends Process
             ])->render() .
             (
                 self::useColorSynthax() ?
-                Page::jsRunCodeMirror(My::id() . 'editor', 'report_contents', 'json', dcCore::app()->auth->user_prefs->get('interface')->get('colorsyntax_theme')) : ''
+                Page::jsRunCodeMirror(My::id() . 'editor', 'report_contents', 'json', App::auth()->prefs()->get('interface')->get('colorsyntax_theme')) : ''
             );
         }
     }
 
     private static function useColorSynthax(): bool
     {
-        return dcCore::app()->auth->user_prefs->get('interface')->get('colorsyntax') && '' != dcCore::app()->auth->user_prefs->get('interface')->get('colorsyntax_theme');
+        return App::auth()->prefs()->get('interface')->get('colorsyntax') && '' != App::auth()->prefs()->get('interface')->get('colorsyntax_theme');
     }
 }

@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\DotclearWatch;
 
-use dcCore;
+use Dotclear\App;
 use Dotclear\Core\Process;
 
 class Backend extends Process
@@ -30,9 +30,9 @@ class Backend extends Process
             return false;
         }
 
-        dcCore::app()->addBehaviors([
+        App::behavior()->addBehaviors([
             'adminDashboardHeaders' => function (): string {
-                return My::jsLoad('service', dcCore::app()->getVersion(My::id()));
+                return My::jsLoad('service', App::version()->getVersion(My::id()));
             },
             'adminPageFooterV2' => function (): void {
                 if (My::settings()->getGlobal('distant_api_url')) {
@@ -47,7 +47,7 @@ class Backend extends Process
             },
         ]);
 
-        dcCore::app()->rest->addFunction(
+        App::rest()->addFunction(
             'adminDotclearWatchSendReport',
             function (): array {
                 Utils::sendReport();
