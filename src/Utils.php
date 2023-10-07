@@ -154,7 +154,7 @@ class Utils
      */
     public static function getError(): string
     {
-        App::log()->getLogs([
+        $rs = App::log()->getLogs([
             'log_table' => My::id() . '_error',
         ]);
 
@@ -317,7 +317,7 @@ class Utils
 
     private static function read(): string
     {
-        App::log()->getLogs([
+        $rs = App::log()->getLogs([
             'log_table' => My::id() . '_report',
         ]);
 
@@ -326,7 +326,7 @@ class Utils
 
     private static function expired(): bool
     {
-        App::log()->getLogs([
+        $rs = App::log()->getLogs([
             'log_table' => My::id() . '_report',
         ]);
 
