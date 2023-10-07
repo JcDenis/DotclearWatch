@@ -275,7 +275,7 @@ class Utils
 
     private static function clear(): void
     {
-        App::log()->getLogs([
+        $rs = App::log()->getLogs([
             'log_table' => [
                 My::id() . '_report',
                 My::id() . '_error',
