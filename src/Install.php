@@ -1,21 +1,19 @@
 <?php
-/**
- * @brief DotclearWatch, a plugin for Dotclear 2
- *
- * @package Dotclear
- * @subpackage Plugin
- *
- * @author Jean-Christian Denis and contributors
- *
- * @copyright Jean-Christain Denis
- * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
- */
+
 declare(strict_types=1);
 
 namespace Dotclear\Plugin\DotclearWatch;
 
 use Dotclear\Core\Process;
 
+/**
+ * @brief   DotclearWatch install class.
+ * @ingroup DotclearWatch
+ *
+ * @author      Jean-Christian Denis
+ * @copyright   Jean-Christian Denis
+ * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
+ */
 class Install extends Process
 {
     public static function init(): bool
@@ -25,8 +23,7 @@ class Install extends Process
 
     public static function process(): bool
     {
-        $s = My::settings();
-        if (self::status() && $s !== null) {
+        if (self::status() && ($s = My::settings()) !== null) {
             $s->put(
                 'hidden_modules',
                 'DotclearWatch',

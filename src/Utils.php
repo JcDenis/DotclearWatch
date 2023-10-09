@@ -1,15 +1,5 @@
 <?php
-/**
- * @brief DotclearWatch, a plugin for Dotclear 2
- *
- * @package Dotclear
- * @subpackage Plugin
- *
- * @author Jean-Christian Denis and contributors
- *
- * @copyright Jean-Christain Denis
- * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
- */
+
 declare(strict_types=1);
 
 namespace Dotclear\Plugin\DotclearWatch;
@@ -20,21 +10,49 @@ use Dotclear\Helper\Network\HttpClient;
 use Dotclear\Module\ModuleDefine;
 use Exception;
 
+/**
+ * @brief   DotclearWatch utils class.
+ * @ingroup DotclearWatch
+ *
+ * @author      Jean-Christian Denis
+ * @copyright   Jean-Christian Denis
+ * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
+ */
 class Utils
 {
-    /** @var    int     The expiration delay before resend report (one week) */
+    /**
+     * The expiration delay before resend report (one week).
+     *
+     * @var     int     EXPIRED_DELAY
+     */
     public const EXPIRED_DELAY = 604800;
 
-    /** @var    string  The default distant API URL */
+    /**
+     * The default distant API URL.
+     *
+     * @var     string  DISTANT_API_URL
+     */
     public const DISTANT_API_URL = 'https://dotclear.watch/api';
 
-    /** @var    string  The distant API version */
+    /**
+     * The distant API version.
+     *
+     * @var     string  DISTANT_API_VERSION
+     */
     public const DISTANT_API_VERSION = '1.1';
 
-    /** @var    array<int,string>   The hiddens modules IDs */
+    /**
+     * The hiddens modules IDs.
+     *
+     * @var     array<int,string>   $hiddens
+     */
     private static array $hiddens = [];
 
-    /** @var    string  Multiblog unique identifiant */
+    /**
+     * Multiblog unique identifiant.
+     *
+     * @var     string  $uid
+     */
     private static string $uid = '';
 
     /**
@@ -74,7 +92,7 @@ class Utils
             if ($strict && in_array($define->getId(), $hiddens)) {
                 continue;
             }
-            $modules[$define->getId()] = $define->get('version');
+            $modules[(string) $define->getId()] = (string) $define->get('version');
         }
 
         return $modules;
@@ -100,7 +118,7 @@ class Utils
             if ($strict && in_array($define->getId(), $hiddens)) {
                 continue;
             }
-            $modules[$define->getId()] = $define->get('version');
+            $modules[(string) $define->getId()] = (string) $define->get('version');
         }
 
         return $modules;
@@ -240,12 +258,12 @@ class Utils
 
     private static function check(): bool
     {
-        return defined('DC_CRYPT_ALGO');
+        return true; // not yet
     }
 
     private static function key(): string
     {
-        return Crypt::hmac(self::uid() . My::id(), DC_CRYPT_ALGO);
+        return Crypt::hmac(self::uid() . My::id(), App::config()->cryptAlgo());
     }
 
     private static function uid(): string
@@ -315,15 +333,6 @@ class Utils
         App::log()->addLog($cur);
     }
 
-    private static function read(): string
-    {
-        $rs = App::log()->getLogs([
-            'log_table' => My::id() . '_report',
-        ]);
-
-        return $rs->isEmpty() || !is_string($rs->f('log_msg')) ? '' : $rs->f('log_msg');
-    }
-
     private static function expired(): bool
     {
         $rs = App::log()->getLogs([
@@ -349,7 +358,7 @@ class Utils
                 'count' => (int) App::blogs()->getBlogs([], true)->f(0),
             ],
             'core' => [
-                'version' => DC_VERSION,
+                'version' => App::config()->dotclearVersion(),
             ],
             'server' => self::getServer(),
             'php'    => [

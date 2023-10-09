@@ -1,13 +1,5 @@
 <?php
-/**
- * @brief DotclearWatch, a plugin for Dotclear 2
- *
- * @package Dotclear
- * @subpackage Plugins
- *
- * @copyright Olivier Meunier & Association Dotclear
- * @copyright GPL-2.0-only
- */
+
 declare(strict_types=1);
 
 namespace Dotclear\Plugin\DotclearWatch;
@@ -30,6 +22,14 @@ use Dotclear\Helper\Html\Form\{
 };
 use Dotclear\Helper\Html\Html;
 
+/**
+ * @brief   DotclearWatch configuration class.
+ * @ingroup DotclearWatch
+ *
+ * @author      Jean-Christian Denis
+ * @copyright   Jean-Christian Denis
+ * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
+ */
 class Config extends Process
 {
     private static string $hidden_modules  = '';
@@ -37,7 +37,7 @@ class Config extends Process
 
     public static function init(): bool
     {
-        return self::status(My::checkContext(My::MANAGE));
+        return self::status(My::checkContext(My::CONFIG));
     }
 
     public static function process(): bool
