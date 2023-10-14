@@ -1,7 +1,7 @@
 # README
 
-[![Release](https://img.shields.io/badge/release-0.9-a2cbe9.svg)](https://git.dotclear.watch/dw/DotclearWatch/releases)
-![Date](https://img.shields.io/badge/date-2023.10.07-c44d58.svg)
+[![Release](https://img.shields.io/badge/release-0.9.2-a2cbe9.svg)](https://git.dotclear.watch/dw/DotclearWatch/releases)
+![Date](https://img.shields.io/badge/date-2023.10.14-c44d58.svg)
 [![Dotclear](https://img.shields.io/badge/dotclear-v2.28-137bbb.svg)](https://fr.dotclear.org/download)
 [![Dotaddict](https://img.shields.io/badge/dotaddict-official-9ac123.svg)](https://plugins.dotaddict.org/dc2/details/DotclearWatch)
 [![License](https://img.shields.io/badge/license-GPL--2.0-ececec.svg)](https://git.dotclear.watch/dw/DotclearWatch/src/branch/master/LICENSE)
@@ -29,9 +29,9 @@ in aboutConfig global parameters called DotclearWatch->hidden_modules
 
 ## REQUIREMENTS
 
-* super admin permission to intall it
 * Dotclear 2.28
 * PHP 8.1+
+* super admin permission to intall it
 
 ## USAGE
 

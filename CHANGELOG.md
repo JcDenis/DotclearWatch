@@ -1,3 +1,9 @@
+DotclearWatch 0.9.2 - 2023.10.14
+===========================================================
+* Require dotclear 2.28
+* Require php 8.1
+* Fix last minute update from Dtoclear 2.28
+
 DotclearWatch 0.9.1 - 2023.10.09
 ===========================================================
 * Require dotclear 2.28
