@@ -11,11 +11,10 @@ use Dotclear\Module\ModuleDefine;
 use Exception;
 
 /**
- * @brief   DotclearWatch utils class.
- * @ingroup DotclearWatch
+ * @brief       DotclearWatch utils class.
+ * @ingroup     DotclearWatch
  *
  * @author      Jean-Christian Denis
- * @copyright   Jean-Christian Denis
  * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 class Utils
@@ -256,11 +255,21 @@ class Utils
         }
     }
 
+    /**
+     * Check if report can be done.
+     *
+     * @return  bool    True if it can
+     */
     private static function check(): bool
     {
         return true; // not yet
     }
 
+    /**
+     * Get report key.
+     *
+     * @return  string  The report key
+     */
     private static function key(): string
     {
         return Crypt::hmac(self::uid() . My::id(), App::config()->cryptAlgo());
@@ -279,11 +288,21 @@ class Utils
         return self::$uid;
     }
 
+    /**
+     * Get blog report uid.
+     *
+     * @return  string  The blog report uid
+     */
     private static function buid(): string
     {
         return md5(self::uid() . App::blog()->uid());
     }
 
+    /**
+     * Get query URL.
+     *
+     * @return  string  The URL
+     */
     private static function url(): string
     {
         $api_url = My::settings()->getGlobal('distant_api_url');
@@ -291,6 +310,9 @@ class Utils
         return (is_string($api_url) ? $api_url : self::DISTANT_API_URL) . '/' . self::DISTANT_API_VERSION . '/%s/' . self::uid();
     }
 
+    /**
+     * Clear report logs.
+     */
     private static function clear(): void
     {
         $rs = App::log()->getLogs([
@@ -311,6 +333,9 @@ class Utils
         App::log()->delLogs($logs);
     }
 
+    /**
+     * Log error.
+     */
     private static function error(string $message): void
     {
         self::clear();
@@ -322,6 +347,9 @@ class Utils
         App::log()->addLog($cur);
     }
 
+    /**
+     * Write report.
+     */
     private static function write(string $contents): void
     {
         self::clear();
@@ -333,6 +361,11 @@ class Utils
         App::log()->addLog($cur);
     }
 
+    /**
+     * Check if report is expired.
+     *
+     * @return  bool True if expired
+     */
     private static function expired(): bool
     {
         $rs = App::log()->getLogs([
@@ -342,6 +375,11 @@ class Utils
         return $rs->isEmpty() || !is_string($rs->f('log_dt')) || (int) strtotime($rs->f('log_dt')) + self::EXPIRED_DELAY < time();
     }
 
+    /**
+     * Get report content.
+     *
+     * @return  string Teh report content
+     */
     private static function contents(): string
     {
         // Build json response
@@ -363,7 +401,8 @@ class Utils
             'server' => self::getServer(),
             'php'    => [
                 'sapi'    => php_sapi_name() ?: 'php',
-                'version' => phpversion(),
+                'version' => PHP_VERSION,
+                'minor'   => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION,
             ],
             'system' => [
                 'name'    => php_uname('s'),

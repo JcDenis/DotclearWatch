@@ -23,16 +23,26 @@ use Dotclear\Helper\Html\Form\{
 use Dotclear\Helper\Html\Html;
 
 /**
- * @brief   DotclearWatch configuration class.
- * @ingroup DotclearWatch
+ * @brief       DotclearWatch configuration class.
+ * @ingroup     DotclearWatch
  *
  * @author      Jean-Christian Denis
- * @copyright   Jean-Christian Denis
  * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 class Config extends Process
 {
-    private static string $hidden_modules  = '';
+    /**
+     * List of hidden modules.
+     *
+     * @var     string  $hidden_modules
+     */
+    private static string $hidden_modules = '';
+
+    /**
+     * Distant API URL.
+     *
+     * @var     string  $distant_api_url
+     */
     private static string $distant_api_url = '';
 
     public static function init(): bool
@@ -46,7 +56,7 @@ class Config extends Process
             return false;
         }
 
-        if (self::useColorSynthax()) {
+        if (App::auth()->prefs()->get('interface')->get('colorsyntax')) {
             App::behavior()->addBehavior('pluginsToolsHeadersV2', fn (bool $plugin): string => Page::jsLoadCodeMirror(App::auth()->prefs()->get('interface')->get('colorsyntax_theme')));
         }
 
@@ -62,15 +72,14 @@ class Config extends Process
             Notices::AddSuccessNotice(__('Cache directory sucessfully cleared.'));
         }
 
-        self::$hidden_modules = '';
+        self::$distant_api_url = !empty($_POST['distant_api_url']) && is_string($_POST['distant_api_url']) ? $_POST['distant_api_url'] : Utils::DISTANT_API_URL;
+        self::$hidden_modules  = '';
         foreach (explode(',', $_POST['hidden_modules']) as $hidden) {
             $hidden = trim($hidden);
             if (!empty($hidden)) {
                 self::$hidden_modules .= trim($hidden) . ',';
             }
         }
-
-        self::$distant_api_url = !empty($_POST['distant_api_url']) && is_string($_POST['distant_api_url']) ? $_POST['distant_api_url'] : Utils::DISTANT_API_URL;
 
         My::settings()->put('hidden_modules', self::$hidden_modules, 'string', 'Hidden modules from report', true, true);
         My::settings()->put('distant_api_url', self::$distant_api_url, 'string', 'Distant API report URL', true, true);
@@ -106,12 +115,12 @@ class Config extends Process
             ]),
             (new Para())->items([
                 (new Label(__('Hidden modules:')))->for('hidden_modules'),
-                (new Input('hidden_modules'))->class('maximal')->size(65)->maxlenght(255)->value(self::$hidden_modules),
+                (new Input('hidden_modules'))->class('maximal')->size(65)->maxlength(255)->value(self::$hidden_modules),
             ]),
             (new Note())->class('form-note')->text(__('This is the comma separated list of plugins IDs and themes IDs to ignore in report.')),
             (new Para())->items([
                 (new Label(__('Distant API URL:')))->for('distant_api_url'),
-                (new Input('distant_api_url'))->class('maximal')->size(65)->maxlenght(255)->value(self::$distant_api_url),
+                (new Input('distant_api_url'))->class('maximal')->size(65)->maxlength(255)->value(self::$distant_api_url),
             ]),
             (new Note())->class('form-note')->text(__('This is the URL of the API to send report. Leave empty to reset value.')),
             (new Para())->items([
@@ -138,14 +147,9 @@ class Config extends Process
                 ->class('maximal'),
             ])->render() .
             (
-                self::useColorSynthax() ?
+                App::auth()->prefs()->get('interface')->get('colorsyntax') ?
                 Page::jsRunCodeMirror(My::id() . 'editor', 'report_contents', 'json', App::auth()->prefs()->get('interface')->get('colorsyntax_theme')) : ''
             );
         }
-    }
-
-    private static function useColorSynthax(): bool
-    {
-        return App::auth()->prefs()->get('interface')->get('colorsyntax') && '' != App::auth()->prefs()->get('interface')->get('colorsyntax_theme');
     }
 }

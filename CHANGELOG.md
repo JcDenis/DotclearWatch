@@ -1,3 +1,12 @@
+DotclearWatch 0.9.3 - 2023.10.22
+===========================================================
+* Require dotclear 2.28
+* Require php 8.1
+* Add PHP minor version (using PHP constants)
+* Add uninstall feature (plugin Uninstaller)
+* Fix colored synthax
+* Use Helper Form everywhere
+
 DotclearWatch 0.9.2 - 2023.10.14
 ===========================================================
 * Require dotclear 2.28

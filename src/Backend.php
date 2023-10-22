@@ -6,13 +6,18 @@ namespace Dotclear\Plugin\DotclearWatch;
 
 use Dotclear\App;
 use Dotclear\Core\Process;
+use Dotclear\Helper\Html\Form\{
+    Img,
+    Li,
+    Link,
+    Ul
+};
 
 /**
  * @brief   DotclearWatch backend class.
  * @ingroup DotclearWatch
  *
  * @author      Jean-Christian Denis
- * @copyright   Jean-Christian Denis
  * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 class Backend extends Process
@@ -29,23 +34,31 @@ class Backend extends Process
         }
 
         App::behavior()->addBehaviors([
+            // Add JS for asynchronous report sending
             'adminDashboardHeaders' => function (): string {
                 return My::jsLoad('service', App::version()->getVersion(My::id()));
             },
+            // Add icon on bottom of dashboard sidebar menu
             'adminPageFooterV2' => function (): void {
                 if (My::settings()->getGlobal('distant_api_url')) {
-                    echo sprintf(
-                        '<ul><li><a href="%s" title="%s" class="outgoing">%s<img src="%s" /></a></ul></li>',
-                        'https://stat.dotclear.watch',
-                        __('Uses DotclearWatch plugin statistics'),
-                        __('Shared statistics'),
-                        My::fileURL('icon.svg')
-                    );
+                    echo (new Ul())->items([
+                        (new li())->items([
+                            (new Link())
+                                ->class('outgoing')
+                                ->href('https://stat.dotclear.watch')
+                                ->title(__('Uses DotclearWatch plugin statistics'))
+                                ->text(__('Shared statistics'))
+                                ->items([
+                                    (new Img(My::fileURL('icon.svg'))),
+                                ]),
+                        ]),
+                    ])->render();
                 }
             },
         ]);
 
         App::rest()->addFunction(
+            // Add REST service for asynchronous report sending
             'adminDotclearWatchSendReport',
             function (): array {
                 Utils::sendReport();

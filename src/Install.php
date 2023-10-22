@@ -7,11 +7,10 @@ namespace Dotclear\Plugin\DotclearWatch;
 use Dotclear\Core\Process;
 
 /**
- * @brief   DotclearWatch install class.
- * @ingroup DotclearWatch
+ * @brief       DotclearWatch install class.
+ * @ingroup     DotclearWatch
  *
  * @author      Jean-Christian Denis
- * @copyright   Jean-Christian Denis
  * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 class Install extends Process
@@ -23,8 +22,8 @@ class Install extends Process
 
     public static function process(): bool
     {
-        if (self::status() && ($s = My::settings()) !== null) {
-            $s->put(
+        if (self::status()) {
+            My::settings()->put(
                 'hidden_modules',
                 'DotclearWatch',
                 'string',
@@ -32,7 +31,7 @@ class Install extends Process
                 false,
                 true
             );
-            $s->put(
+            My::settings()->put(
                 'distant_api_url',
                 'https://dotclear.watch/api',
                 'string',
