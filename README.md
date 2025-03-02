@@ -1,10 +1,10 @@
 # README
 
-[![Release](https://img.shields.io/badge/release-0.9.3-a2cbe9.svg)](https://git.dotclear.watch/dw/DotclearWatch/releases)
-![Date](https://img.shields.io/badge/date-2023.10.22-c44d58.svg)
-[![Dotclear](https://img.shields.io/badge/dotclear-v2.28-137bbb.svg)](https://fr.dotclear.org/download)
+[![Release](https://img.shields.io/github/v/release/jcdenis/DotclearWatch?color=lightblue)](https://github.com/JcDenis/DotclearWatch/releases)
+![Date](https://img.shields.io/github/release-date/jcdenis/DotclearWatch?color=red)
+[![Dotclear](https://img.shields.io/badge/dotclear-v2.33-137bbb.svg)](https://fr.dotclear.org/download)
 [![Dotaddict](https://img.shields.io/badge/dotaddict-official-9ac123.svg)](https://plugins.dotaddict.org/dc2/details/DotclearWatch)
-[![License](https://img.shields.io/badge/license-GPL--2.0-ececec.svg)](https://git.dotclear.watch/dw/DotclearWatch/src/branch/master/LICENSE)
+[![License](https://img.shields.io/github/license/jcdenis/DotclearWatch?color=white)](https://github.com/JcDenis/DotclearWatch/blob/master/LICENSE)
 
 ## ABOUT
 
@@ -42,10 +42,10 @@ To disable sending stats, just deactivate or uninstall this plugin.
 
 ## LINKS
 
-* [License](https://git.dotclear.watch/dw/DotclearWatch/src/branch/master/LICENSE)
-* [Packages & details](https://git.dotclear.watch/dw/DotclearWatch/releases) (or on [Dotaddict](https://plugins.dotaddict.org/dc2/details/DotclearWatch))
-* [Sources & contributions](https://git.dotclear.watch/dw/DotclearWatch) (or on [GitHub](https://github.com/JcDenis/DotclearWatch))
-* [Issues & security](https://git.dotclear.watch/dw/DotclearWatch/issues) (or on [GitHub](https://github.com/JcDenis/DotclearWatch/issues))
+* [License](https://github.com/JcDenis/DotclearWatch/blob/master/LICENSE)
+* [Packages & details](https://github.com/JcDenis/DotclearWatch/releases) (or on [Dotaddict](https://plugins.dotaddict.org/dc2/details/DotclearWatch))
+* [Sources & contributions](https://github.com/JcDenis/DotclearWatch)
+* [Issues & security](https://github.com/JcDenis/DotclearWatch/issues)
 
 ## CONTRIBUTORS
 
