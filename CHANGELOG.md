@@ -1,3 +1,9 @@
+DotclearWatch 0.9.4 - 2025.03.02
+===========================================================
+* Require dotclear 2.28
+* Require php 8.1
+* Fix repository URLs
+
 DotclearWatch 0.9.3 - 2023.10.22
 ===========================================================
 * Require dotclear 2.28
