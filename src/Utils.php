@@ -8,7 +8,7 @@ use Dotclear\App;
 use Dotclear\Helper\Crypt;
 use Dotclear\Helper\Network\HttpClient;
 use Dotclear\Module\ModuleDefine;
-use Exception;
+use Throwable;
 
 /**
  * @brief       DotclearWatch utils class.
@@ -27,18 +27,25 @@ class Utils
     public const EXPIRED_DELAY = 604800;
 
     /**
-     * The default distant API URL.
+     * The default distant blog API URL.
      *
      * @var     string  DISTANT_API_URL
      */
-    public const DISTANT_API_URL = 'https://dotclear.watch/api';
+    public const DISTANT_API_URL = 'https://dotclear.watch/';
+
+    /**
+     * The default distant API URI.
+     *
+     * @var     string  DISTANT_API_URL
+     */
+    public const DISTANT_API_URI = 'api/';
 
     /**
      * The distant API version.
      *
      * @var     string  DISTANT_API_VERSION
      */
-    public const DISTANT_API_VERSION = '1.1';
+    public const DISTANT_API_VERSION = 'v1';
 
     /**
      * The hiddens modules IDs.
@@ -198,60 +205,60 @@ class Utils
      */
     public static function sendReport(bool $force = false): void
     {
-        if (!self::check()) {
+        if (!self::check() || !$force && !self::expired()) {
             return;
         }
 
-        if (!$force && !self::expired()) {
-            return;
-        }
+        // Build and write content
+        self::write($contents = self::contents());
 
-        $contents = self::contents();
-
-        self::write($contents);
-
-        $client   = false;
-        $status   = 500;
+        // Prepare API request
         $response = '';
         $url      = sprintf(self::url(), 'report');
         $path     = '';
+        $agent    = My::id() . '/' . (string) App::plugins()->getDefine(My::id())->get('version');
+        $header   = 'X-API-Version: ' . static::DISTANT_API_VERSION;
+        $params   = [
+            'uid'    => self::uid(),
+            'key'    => self::key(),
+            'report' => $contents
+        ];
 
         try {
             if (false !== ($client = HttpClient::initClient($url, $path))) {
-                $client->setUserAgent('Dotclear.watch ' . My::id() . '/' . self::DISTANT_API_VERSION);
+                // Try using Dotcler HTTP client
+                $client->setUserAgent($agent);
                 $client->useGzip(false);
                 $client->setPersistReferers(false);
-                $client->post($path, ['key' => self::key(), 'report' => $contents]);
+                $client->setMoreHeader($header);
+                $client->post($path, $params);
 
-                $status   = (int) $client->getStatus();
                 $response = $client->getContent();
             } elseif (function_exists('curl_init')) {
+                // Try using CURL
                 if (false !== ($client = curl_init($url))) {
+                    curl_setopt($client, CURLOPT_USERAGENT, $agent);
                     curl_setopt($client, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($client, CURLOPT_POST, true);
-                    curl_setopt($client, CURLOPT_POSTFIELDS, ['key' => self::key(), 'report' => $contents]);
+                    curl_setopt($client, CURLOPT_HTTPHEADER, [$header]);
+                    curl_setopt($client, CURLOPT_POSTFIELDS, $params);
 
-                    if (false !== ($response = curl_exec($client))) {
-                        $status = (int) curl_getinfo($client, CURLINFO_HTTP_CODE);
-                    }
+                    $response = curl_exec($client);
                 }
             }
 
             unset($client);
-        } catch (Exception $e) {
+        } catch (Throwable) {
             unset($client);
         }
 
-        if ($status == 202) {
-            return;
-        }
+        // Parse reponse
+        $rsp = json_decode((string) $response, true) ?? [];
 
-        if ($status !== false) {
-            self::error((string) '(' . $status . ') ' . $response);
-        }
-
-        if ($force) {
+        if (!isset($rsp['code']) || !isset($rsp['message'])) {
             self::error('Dotclear.watch report failed');
+        } elseif ($rsp['code'] != 200) {
+            self::error('(' . $rsp['code'] . ') ' . $rsp['message']);
         }
     }
 
@@ -301,13 +308,22 @@ class Utils
     /**
      * Get query URL.
      *
+     * ex: https://blog.url/api/DotclearWatch/report/
+     *
      * @return  string  The URL
      */
     private static function url(): string
     {
-        $api_url = My::settings()->getGlobal('distant_api_url');
+        $api_url = My::settings()->getGlobal('distant_api_url') ?? self::DISTANT_API_URL;
+        if (!str_ends_with($api_url, '/')) {
+            $api_url .= '/';
+        }
+        // Remove old style (< 1.0) API URL
+        if (str_ends_with($api_url, 'api/')) {
+            $api_url = substr($api_url, 0, -4);
+        }
 
-        return (is_string($api_url) ? $api_url : self::DISTANT_API_URL) . '/' . self::DISTANT_API_VERSION . '/%s/' . self::uid();
+        return $api_url . self::DISTANT_API_URI . My::id() . '/%s/';
     }
 
     /**
