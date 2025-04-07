@@ -1,3 +1,9 @@
+DotclearWatch 1.0 - 2025.04.08
+===========================================================
+* Require dotclear 2.28
+* Require php 8.1
+* Breaking changes in server API
+
 DotclearWatch 0.9.4 - 2025.03.02
 ===========================================================
 * Require dotclear 2.28
