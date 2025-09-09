@@ -71,7 +71,7 @@ class Config
 
         if (!empty($_POST['clear_cache'])) {
             Utils::clearCache();
-            Notices::AddSuccessNotice(__('Cache directory sucessfully cleared.'));
+            Notices::addSuccessNotice(__('Cache directory sucessfully cleared.'));
         }
 
         self::$distant_api_url = !empty($_POST['distant_api_url']) && is_string($_POST['distant_api_url']) ? $_POST['distant_api_url'] : Utils::DISTANT_API_URL;
@@ -85,15 +85,15 @@ class Config
 
         My::settings()->put('hidden_modules', self::$hidden_modules, 'string', 'Hidden modules from report', true, true);
         My::settings()->put('distant_api_url', self::$distant_api_url, 'string', 'Distant API report URL', true, true);
-        Notices::AddSuccessNotice(__('Settings successfully updated.'));
+        Notices::addSuccessNotice(__('Settings successfully updated.'));
 
         if (!empty($_POST['send_report'])) {
             Utils::sendReport(true);
             $error = Utils::getError();
             if (!empty($error)) {
-                Notices::AddWarningNotice($error);
+                Notices::addWarningNotice($error);
             } else {
-                Notices::AddSuccessNotice(__('Report sent.'));
+                Notices::addSuccessNotice(__('Report sent.'));
             }
         }
 
