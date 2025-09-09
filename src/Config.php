@@ -7,7 +7,7 @@ namespace Dotclear\Plugin\DotclearWatch;
 use Dotclear\App;
 use Dotclear\Core\Backend\Notices;
 use Dotclear\Core\Backend\Page;
-use Dotclear\Core\Process;
+use Dotclear\Helper\Process\TraitProcess;
 use Dotclear\Helper\Html\Form\{
     Checkbox,
     Div,
@@ -29,8 +29,10 @@ use Dotclear\Helper\Html\Html;
  * @author      Jean-Christian Denis
  * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-class Config extends Process
+class Config
 {
+    use TraitProcess;
+
     /**
      * List of hidden modules.
      *
