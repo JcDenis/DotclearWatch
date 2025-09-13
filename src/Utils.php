@@ -425,8 +425,8 @@ class Utils
                 'version' => php_uname('r'),
             ],
             'database' => [
-                'driver'  => App::con()->driver(),
-                'version' => App::con()->version(),
+                'driver'  => App::db()->con()->driver(),
+                'version' => App::db()->con()->version(),
             ],
         ], JSON_PRETTY_PRINT);
     }

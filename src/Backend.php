@@ -6,12 +6,10 @@ namespace Dotclear\Plugin\DotclearWatch;
 
 use Dotclear\App;
 use Dotclear\Helper\Process\TraitProcess;
-use Dotclear\Helper\Html\Form\{
-    Img,
-    Li,
-    Link,
-    Ul
-};
+use Dotclear\Helper\Html\Form\Img;
+use Dotclear\Helper\Html\Form\Li;
+use Dotclear\Helper\Html\Form\Link;
+use Dotclear\Helper\Html\Form\Ul;
 
 /**
  * @brief   DotclearWatch backend class.
