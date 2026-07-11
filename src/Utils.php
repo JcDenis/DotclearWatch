@@ -182,7 +182,7 @@ class Utils
             'log_table' => My::id() . '_error',
         ]);
 
-        return $rs->isEmpty() || !is_string($rs->f('log_msg')) ? '' : $rs->f('log_msg');
+        return $rs->isEmpty() ? '' : $rs->strField('log_msg');
     }
 
     /**
@@ -344,7 +344,7 @@ class Utils
 
         $logs = [];
         while ($rs->fetch()) {
-            $logs[] = (int) $rs->f('log_id');
+            $logs[] = $rs->intField('log_id');
         }
         App::log()->delLogs($logs);
     }
@@ -388,7 +388,7 @@ class Utils
             'log_table' => My::id() . '_report',
         ]);
 
-        return $rs->isEmpty() || !is_string($rs->f('log_dt')) || (int) strtotime($rs->f('log_dt')) + self::EXPIRED_DELAY < time();
+        return $rs->isEmpty() || $rs->strField('log_dt') === '' || (int) strtotime($rs->strField('log_dt')) + self::EXPIRED_DELAY < time();
     }
 
     /**
@@ -409,7 +409,7 @@ class Utils
                 'theme' => (string) App::blog()->settings()->get('system')->get('theme'),
             ],
             'blogs' => [
-                'count' => (int) App::blogs()->getBlogs([], true)->f(0),
+                'count' => (int) App::blogs()->getBlogs([], true)->cardinal(),
             ],
             'core' => [
                 'version' => App::config()->dotclearVersion(),
