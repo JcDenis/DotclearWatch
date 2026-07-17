@@ -56,25 +56,25 @@ class Config
             return false;
         }
 
-        if (App::auth()->prefs()->get('interface')->get('colorsyntax')) {
-            App::behavior()->addBehavior('pluginsToolsHeadersV2', fn (bool $plugin): string => Page::jsLoadCodeMirror(App::auth()->prefs()->get('interface')->get('colorsyntax_theme')));
+        if (App::auth()->prefs()->get('interface')->getBool('colorsyntax', false)) {
+            App::behavior()->addBehavior('pluginsToolsHeadersV2', fn (bool $plugin): string => Page::jsLoadCodeMirror(App::auth()->prefs()->get('interface')->getStr('colorsyntax_theme', false)));
         }
 
-        self::$hidden_modules  = (string) My::settings()->getGlobal('hidden_modules');
-        self::$distant_api_url = (string) My::settings()->getGlobal('distant_api_url');
+        self::$hidden_modules  = is_string(My::settings()->getGlobal('hidden_modules')) ? My::settings()->getGlobal('hidden_modules') : '';
+        self::$distant_api_url = is_string(My::settings()->getGlobal('distant_api_url')) ? My::settings()->getGlobal('distant_api_url'): '';
 
         if (empty($_POST)) {
             return true;
         }
 
-        if (!empty($_POST['clear_cache'])) {
+        if (isset($_POST['clear_cache']) && !empty($_POST['clear_cache'])) {
             Utils::clearCache();
             Notices::addSuccessNotice(__('Cache directory sucessfully cleared.'));
         }
 
         self::$distant_api_url = !empty($_POST['distant_api_url']) && is_string($_POST['distant_api_url']) ? $_POST['distant_api_url'] : Utils::DISTANT_API_URL;
         self::$hidden_modules  = '';
-        foreach (explode(',', $_POST['hidden_modules']) as $hidden) {
+        foreach (explode(',', (isset($_POST['hidden_modules']) && is_string($_POST['hidden_modules']) ? $_POST['hidden_modules'] : '')) as $hidden) {
             $hidden = trim($hidden);
             if (!empty($hidden)) {
                 self::$hidden_modules .= trim($hidden) . ',';
@@ -85,7 +85,7 @@ class Config
         My::settings()->put('distant_api_url', self::$distant_api_url, 'string', 'Distant API report URL', true, true);
         Notices::addSuccessNotice(__('Settings successfully updated.'));
 
-        if (!empty($_POST['send_report'])) {
+        if (isset($_POST['send_report']) && !empty($_POST['send_report'])) {
             Utils::sendReport(true);
             $error = Utils::getError();
             if (!empty($error)) {
@@ -147,8 +147,8 @@ class Config
                 ->class('maximal'),
             ])->render() .
             (
-                App::auth()->prefs()->get('interface')->get('colorsyntax') ?
-                Page::jsRunCodeMirror(My::id() . 'editor', 'report_contents', 'json', App::auth()->prefs()->get('interface')->get('colorsyntax_theme')) : ''
+                App::auth()->prefs()->get('interface')->getBool('colorsyntax', false) ?
+                Page::jsRunCodeMirror(My::id() . 'editor', 'report_contents', 'json', App::auth()->prefs()->get('interface')->getStr('colorsyntax_theme', false)) : ''
             );
         }
     }

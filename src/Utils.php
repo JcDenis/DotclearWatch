@@ -70,8 +70,8 @@ class Utils
      */
     public static function getHiddens(): array
     {
-        if (empty(self::$hiddens)) {
-            foreach (explode(',', (string) My::settings()->getGlobal('hidden_modules')) as $hidden) {
+        if (empty(self::$hiddens) && is_string(My::settings()->getGlobal('hidden_modules'))) {
+            foreach (explode(',', My::settings()->getGlobal('hidden_modules')) as $hidden) {
                 $hidden = trim($hidden);
                 if (!empty($hidden)) {
                     self::$hiddens[] = trim($hidden);
@@ -95,10 +95,10 @@ class Utils
         $hiddens = self::getHiddens();
         $defines = App::plugins()->getDefines($strict ? ['state' => ModuleDefine::STATE_ENABLED] : []);
         foreach ($defines as $define) {
-            if ($strict && in_array($define->getId(), $hiddens)) {
+            if (($strict && in_array($define->getId(), $hiddens)) || !is_string($define->get('version'))) {
                 continue;
             }
-            $modules[(string) $define->getId()] = (string) $define->get('version');
+            $modules[(string) $define->getId()] = $define->get('version');
         }
 
         return $modules;
@@ -121,10 +121,10 @@ class Utils
         $hiddens = self::getHiddens();
         $defines = App::themes()->getDefines($strict ? ['state' => ModuleDefine::STATE_ENABLED] : []);
         foreach ($defines as $define) {
-            if ($strict && in_array($define->getId(), $hiddens)) {
+            if (($strict && in_array($define->getId(), $hiddens)) || !is_string($define->get('version'))) {
                 continue;
             }
-            $modules[(string) $define->getId()] = (string) $define->get('version');
+            $modules[(string) $define->getId()] = $define->get('version');
         }
 
         return $modules;
@@ -142,7 +142,7 @@ class Utils
             'version' => 'undefined',
         ];
 
-        if (!empty($_SERVER['SERVER_SOFTWARE'])) {
+        if (isset($_SERVER['SERVER_SOFTWARE']) && !empty($_SERVER['SERVER_SOFTWARE']) && is_string($_SERVER['SERVER_SOFTWARE'])) {
             $exp = explode('/', $_SERVER['SERVER_SOFTWARE']);
             if (count($exp) == 2) {
                 $res = [
@@ -216,7 +216,7 @@ class Utils
         $response = '';
         $url      = sprintf(self::url(), 'report');
         $path     = '';
-        $agent    = My::id() . '/' . (string) App::plugins()->getDefine(My::id())->get('version');
+        $agent    = My::id() . '/' . (is_string(App::plugins()->getDefine(My::id())->get('version')) ? App::plugins()->getDefine(My::id())->get('version') : '0');
         $header   = 'X-API-Version: ' . static::DISTANT_API_VERSION;
         $params   = [
             'uid'    => self::uid(),
@@ -255,7 +255,7 @@ class Utils
         // Parse reponse
         $rsp = json_decode((string) $response, true) ?? [];
 
-        if (!isset($rsp['code']) || !isset($rsp['message'])) {
+        if (!is_array($rsp) || !isset($rsp['code']) || !is_string($rsp['code']) || !isset($rsp['message']) || !is_string($rsp['message'])) {
             self::error('Dotclear.watch report failed');
         } elseif ($rsp['code'] != 200) {
             self::error('(' . $rsp['code'] . ') ' . $rsp['message']);
@@ -284,8 +284,8 @@ class Utils
 
     private static function uid(): string
     {
-        if (empty(self::$uid)) {
-            self::$uid = (string) My::settings()->getGlobal('client_uid');
+        if (empty(self::$uid) && is_string(My::settings()->getGlobal('client_uid'))) {
+            self::$uid = My::settings()->getGlobal('client_uid');
             if (empty(self::$uid) || strlen(self::$uid) != 32) {
                 self::$uid = md5(uniqid() . My::id() . time());
                 My::settings()->put('client_uid', self::$uid, 'string', 'Client UID', false, true);
@@ -314,7 +314,10 @@ class Utils
      */
     private static function url(): string
     {
-        $api_url = My::settings()->getGlobal('distant_api_url') ?? self::DISTANT_API_URL;
+        $api_url = My::settings()->getGlobal('distant_api_url');
+        if (!is_string($api_url) || empty($api_url)) {
+            $api_url = self::DISTANT_API_URL;
+        }
         if (!str_ends_with($api_url, '/')) {
             $api_url .= '/';
         }
@@ -405,11 +408,11 @@ class Utils
             'plugins' => self::getPlugins(), // enabled plugins
             'themes'  => self::getThemes(), // enabled themes
             'blog'    => [
-                'lang'  => (string) App::blog()->settings()->get('system')->get('lang'),
-                'theme' => (string) App::blog()->settings()->get('system')->get('theme'),
+                'lang'  => App::blog()->settings()->get('system')->getStr('lang', false),
+                'theme' => App::blog()->settings()->get('system')->getStr('theme', false),
             ],
             'blogs' => [
-                'count' => (int) App::blogs()->getBlogs([], true)->cardinal(),
+                'count' => App::blogs()->getBlogs([], true)->cardinal(),
             ],
             'core' => [
                 'version' => App::config()->dotclearVersion(),
