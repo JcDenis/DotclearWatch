@@ -255,9 +255,9 @@ class Utils
         // Parse reponse
         $rsp = json_decode((string) $response, true) ?? [];
 
-        if (!is_array($rsp) || !isset($rsp['code']) || !is_string($rsp['code']) || !isset($rsp['message']) || !is_string($rsp['message'])) {
+        if (!is_array($rsp) || !isset($rsp['code']) || !is_numeric($rsp['code']) || !isset($rsp['message']) || !is_string($rsp['message'])) {
             self::error('Dotclear.watch report failed');
-        } elseif ($rsp['code'] != 200) {
+        } elseif ((int) $rsp['code'] !== 200) {
             self::error('(' . $rsp['code'] . ') ' . $rsp['message']);
         }
     }
