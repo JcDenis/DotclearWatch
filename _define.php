@@ -22,7 +22,7 @@ $this->registerModule(
     'Dotclear Watch',
     'Send report about your Dotclear',
     'Jean-Christian Denis and contributors',
-    '1.1.1',
+    '1.2',
     [
         'requires'    => [['core', '2.39']],
         'permissions' => 'My',

@@ -1,6 +1,7 @@
-DotclearWatch 1.2 - xxxx.xx.xx
+DotclearWatch 1.2 - 2026.08.12
 ===========================================================
 * Bump Dotclear from 2.36 to 2.39
+* Code review (phpstan max)
 
 DotclearWatch 1.1 - 2025.09.09
 ===========================================================
