@@ -49,7 +49,7 @@ class Backend
                                 ->title(__('Uses DotclearWatch plugin statistics'))
                                 ->text(__('Shared statistics'))
                                 ->items([
-                                    (new Img(My::fileURL('icon.svg'))),
+                                    (new Img(My::fileURL('icon.svg')))->alt(''),
                                 ]),
                         ]),
                     ])->render();
