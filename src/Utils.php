@@ -284,8 +284,9 @@ class Utils
 
     private static function uid(): string
     {
-        if (empty(self::$uid) && is_string(My::settings()->getGlobal('client_uid'))) {
-            self::$uid = My::settings()->getGlobal('client_uid');
+        if (empty(self::$uid)) {
+            // Client UID setting does not exist on first report
+            self::$uid = is_string($uid = My::settings()->getGlobal('client_uid')) ? $uid : '';
             if (empty(self::$uid) || strlen(self::$uid) != 32) {
                 self::$uid = md5(uniqid() . My::id() . time());
                 My::settings()->put('client_uid', self::$uid, 'string', 'Client UID', false, true);
