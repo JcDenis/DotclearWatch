@@ -1,3 +1,7 @@
+DotclearWatch 1.4 - 2026.11.08
+===========================================================
+* Retry failed report after one day instead of on each page load
+
 DotclearWatch 1.3 - 2026.11.08
 ===========================================================
 * Fix client UID never created on first report
