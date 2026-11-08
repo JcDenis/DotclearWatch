@@ -27,6 +27,27 @@ class Utils
     public const EXPIRED_DELAY = 604800;
 
     /**
+     * The delay before retry a failed report (one day).
+     *
+     * @var     int     RETRY_DELAY
+     */
+    public const RETRY_DELAY = 86400;
+
+    /**
+     * The distant API connection timeout in seconds.
+     *
+     * @var     int     CONNECT_TIMEOUT
+     */
+    public const CONNECT_TIMEOUT = 5;
+
+    /**
+     * The distant API request timeout in seconds.
+     *
+     * @var     int     REQUEST_TIMEOUT
+     */
+    public const REQUEST_TIMEOUT = 20;
+
+    /**
      * The default distant blog API URL.
      *
      * @var     string  DISTANT_API_URL
@@ -224,31 +245,47 @@ class Utils
             'report' => $contents
         ];
 
-        try {
-            if (false !== ($client = HttpClient::initClient($url, $path))) {
-                // Try using Dotcler HTTP client
-                $client->setUserAgent($agent);
-                $client->useGzip(false);
-                $client->setPersistReferers(false);
-                $client->setMoreHeader($header);
-                $client->post($path, $params);
+        // A distant server not reachable is not a PHP error: keep connection warnings as report error
+        $failure = '';
+        set_error_handler(function (int $errno, string $errstr) use (&$failure): bool {
+            $failure = $errstr;
 
-                $response = $client->getContent();
-            } elseif (function_exists('curl_init')) {
-                // Try using CURL
+            return true;
+        }, E_WARNING | E_NOTICE);
+
+        try {
+            if (function_exists('curl_init')) {
+                // Try using CURL first, it respects request timeout
                 if (false !== ($client = curl_init($url))) {
                     curl_setopt($client, CURLOPT_USERAGENT, $agent);
                     curl_setopt($client, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($client, CURLOPT_POST, true);
                     curl_setopt($client, CURLOPT_HTTPHEADER, [$header]);
                     curl_setopt($client, CURLOPT_POSTFIELDS, $params);
+                    curl_setopt($client, CURLOPT_CONNECTTIMEOUT, self::CONNECT_TIMEOUT);
+                    curl_setopt($client, CURLOPT_TIMEOUT, self::REQUEST_TIMEOUT);
 
                     $response = curl_exec($client);
+                    if ($response === false) {
+                        $failure = curl_error($client);
+                    }
                 }
-            }
+            } elseif (false !== ($client = HttpClient::initClient($url, $path))) {
+                // Try using Dotclear HTTP client
+                $client->setUserAgent($agent);
+                $client->useGzip(false);
+                $client->setPersistReferers(false);
+                $client->setMoreHeader($header);
+                $client->setTimeout(self::CONNECT_TIMEOUT);
+                $client->setStreamTimeout(self::REQUEST_TIMEOUT);
+                $client->post($path, $params);
 
-            unset($client);
-        } catch (Throwable) {
+                $response = $client->getContent();
+            }
+        } catch (Throwable $throwable) {
+            $failure = $throwable->getMessage();
+        } finally {
+            restore_error_handler();
             unset($client);
         }
 
@@ -256,7 +293,7 @@ class Utils
         $rsp = json_decode((string) $response, true) ?? [];
 
         if (!is_array($rsp) || !isset($rsp['code']) || !is_numeric($rsp['code']) || !isset($rsp['message']) || !is_string($rsp['message'])) {
-            self::error('Dotclear.watch report failed');
+            self::error('Dotclear.watch report failed' . ($failure !== '' ? ': ' . $failure : ''));
         } elseif ((int) $rsp['code'] !== 200) {
             self::error('(' . $rsp['code'] . ') ' . $rsp['message']);
         }
@@ -332,11 +369,13 @@ class Utils
 
     /**
      * Clear report logs.
+     *
+     * @param   bool    $errors_only    Only clear errors logs (keep last report date)
      */
-    private static function clear(): void
+    private static function clear(bool $errors_only = false): void
     {
         $rs = App::log()->getLogs([
-            'log_table' => [
+            'log_table' => $errors_only ? [My::id() . '_error'] : [
                 My::id() . '_report',
                 My::id() . '_error',
             ],
@@ -358,7 +397,8 @@ class Utils
      */
     private static function error(string $message): void
     {
-        self::clear();
+        // Keep report log to not retry on each page load
+        self::clear(true);
 
         $cur = App::log()->openLogCursor();
         $cur->setField('log_table', My::id() . '_error');
@@ -392,7 +432,14 @@ class Utils
             'log_table' => My::id() . '_report',
         ]);
 
-        return $rs->isEmpty() || $rs->strField('log_dt') === '' || (int) strtotime($rs->strField('log_dt')) + self::EXPIRED_DELAY < time();
+        if ($rs->isEmpty() || $rs->strField('log_dt') === '') {
+            return true;
+        }
+
+        // Failed report is retried sooner
+        $delay = self::getError() === '' ? self::EXPIRED_DELAY : self::RETRY_DELAY;
+
+        return (int) strtotime($rs->strField('log_dt')) + $delay < time();
     }
 
     /**
