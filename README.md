@@ -50,5 +50,6 @@ To disable sending stats, just deactivate or uninstall this plugin.
 ## CONTRIBUTORS
 
 * Jean-Christian Denis (author)
+* Claude (AI assistant by Anthropic)
 
 You are welcome to contribute to this code.
