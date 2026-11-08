@@ -1,3 +1,8 @@
+DotclearWatch 1.3 - 2026.11.08
+===========================================================
+* Fix client UID never created on first report
+* Add Claude to contributors
+
 DotclearWatch 1.2 - 2026.08.12
 ===========================================================
 * Bump Dotclear from 2.36 to 2.39
