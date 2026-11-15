@@ -16,7 +16,7 @@ msgstr "Utilise le plugin de statistiques DotclearWatch"
 msgid "Shared statistics"
 msgstr "Statistiques partagées"
 
-msgid "Cache directory sucessfully cleared."
+msgid "Cache directory successfully cleared."
 msgstr "Répertoire de cache des rapports nettoyé."
 
 msgid "Settings successfully updated."
@@ -55,3 +55,5 @@ msgstr "Ceci envoie le rapport pour le blog courant même si un rapport existe e
 msgid "Report that will be sent for this blog:"
 msgstr "Rapport qui sera envoyé pour ce blog :"
 
+msgid "Last report failed: %s"
+msgstr "Le dernier envoi a échoué : %s"

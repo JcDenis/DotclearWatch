@@ -15,6 +15,7 @@ use Dotclear\Helper\Html\Form\Label;
 use Dotclear\Helper\Html\Form\Li;
 use Dotclear\Helper\Html\Form\Note;
 use Dotclear\Helper\Html\Form\Para;
+use Dotclear\Helper\Html\Form\None;
 use Dotclear\Helper\Html\Form\Text;
 use Dotclear\Helper\Html\Form\Textarea;
 use Dotclear\Helper\Html\Form\Ul;
@@ -69,24 +70,26 @@ class Config
 
         if (isset($_POST['clear_cache']) && !empty($_POST['clear_cache'])) {
             Utils::clearCache();
-            Notices::addSuccessNotice(__('Cache directory sucessfully cleared.'));
+            Notices::addSuccessNotice(__('Cache directory successfully cleared.'));
         }
 
         self::$distant_api_url = !empty($_POST['distant_api_url']) && is_string($_POST['distant_api_url']) ? $_POST['distant_api_url'] : Utils::DISTANT_API_URL;
-        self::$hidden_modules  = '';
+        $hiddens = [];
         foreach (explode(',', (isset($_POST['hidden_modules']) && is_string($_POST['hidden_modules']) ? $_POST['hidden_modules'] : '')) as $hidden) {
             $hidden = trim($hidden);
-            if (!empty($hidden)) {
-                self::$hidden_modules .= trim($hidden) . ',';
+            if ($hidden !== '') {
+                $hiddens[] = $hidden;
             }
         }
+        self::$hidden_modules = implode(',', array_unique($hiddens));
 
         My::settings()->put('hidden_modules', self::$hidden_modules, 'string', 'Hidden modules from report', true, true);
         My::settings()->put('distant_api_url', self::$distant_api_url, 'string', 'Distant API report URL', true, true);
         Notices::addSuccessNotice(__('Settings successfully updated.'));
 
         if (isset($_POST['send_report']) && !empty($_POST['send_report'])) {
-            Utils::sendReport(true);
+            // Use new URL, settings are not reloaded yet
+            Utils::sendReport(true, self::$distant_api_url);
             $error = Utils::getError();
             if (!empty($error)) {
                 Notices::addWarningNotice($error);
@@ -109,6 +112,7 @@ class Config
         echo
         (new Div())->items([
             (new Text('p', __('Settings are globals. Reports are by blog.')))->class('message'),
+            (Utils::getError() !== '' ? (new Text('p', sprintf(__('Last report failed: %s'), Html::escapeHTML(Utils::getError()))))->class('warning-msg') : (new None())),
             (new Ul())->items([
                 (new Li())->text(sprintf(__('API: %s'), Utils::DISTANT_API_VERSION)),
                 (new Li())->text(sprintf(__('UID: %s'), Utils::getClient())),

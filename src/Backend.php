@@ -40,7 +40,9 @@ class Backend
             },
             // Add icon on bottom of dashboard sidebar menu
             'adminPageFooterV2' => function (): void {
-                if (My::settings()->getGlobal('distant_api_url')) {
+                // Shared statistics only exist for the default API
+                $api_url = My::settings()->getGlobal('distant_api_url');
+                if (!is_string($api_url) || $api_url === '' || rtrim($api_url, '/') === rtrim(Utils::DISTANT_API_URL, '/')) {
                     echo (new Ul())->items([
                         (new li())->items([
                             (new Link())

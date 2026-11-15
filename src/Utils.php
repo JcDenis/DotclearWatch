@@ -222,9 +222,10 @@ class Utils
      * Report will be by blog to keep track of all used themes.
      * Plugins stats are by multiblogs and themes stats by blog.
      *
-     * @param   bool    $force  Send report even if delay not expired
+     * @param   bool    $force      Send report even if delay not expired
+     * @param   string  $api_url    The distant API URL, if just changed (settings are not reloaded)
      */
-    public static function sendReport(bool $force = false): void
+    public static function sendReport(bool $force = false, string $api_url = ''): void
     {
         if (!self::check() || !$force && !self::expired()) {
             return;
@@ -235,7 +236,7 @@ class Utils
 
         // Prepare API request
         $response = '';
-        $url      = sprintf(self::url(), 'report');
+        $url      = sprintf(self::url($api_url), 'report');
         $path     = '';
         $agent    = My::id() . '/' . (is_string(App::plugins()->getDefine(My::id())->get('version')) ? App::plugins()->getDefine(My::id())->get('version') : '0');
         $header   = 'X-API-Version: ' . static::DISTANT_API_VERSION;
@@ -350,9 +351,11 @@ class Utils
      *
      * @return  string  The URL
      */
-    private static function url(): string
+    private static function url(string $api_url = ''): string
     {
-        $api_url = My::settings()->getGlobal('distant_api_url');
+        if ($api_url === '') {
+            $api_url = My::settings()->getGlobal('distant_api_url');
+        }
         if (!is_string($api_url) || empty($api_url)) {
             $api_url = self::DISTANT_API_URL;
         }
