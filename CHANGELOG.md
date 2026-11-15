@@ -1,3 +1,8 @@
+DotclearWatch 1.5 - 2026.11.15
+===========================================================
+* [fix] Send now with new API URL, hidden modules without trailing comma, last error shown, shared statistics link only for default API
+* [docs] Add a user guide in French, with screenshots
+
 DotclearWatch 1.4 - 2026.11.08
 ===========================================================
 * Retry failed report after one day instead of on each page load
