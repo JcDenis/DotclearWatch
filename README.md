@@ -12,6 +12,8 @@ _dotclear watch_  is a plugin for the open-source web publishing software called
 
 > Send report about your Dotclear
 
+A [user guide in French](https://github.com/JcDenis/DotclearWatch/blob/master/docs/fr/utilisation.md) is available.
+
 It tracks Dotclear's installation to get stats about it.
 Default statistics server is located at https://stat.dotclear.watch
 
@@ -42,6 +44,7 @@ To disable sending stats, just deactivate or uninstall this plugin.
 
 ## LINKS
 
+* [User guide (in French)](https://github.com/JcDenis/DotclearWatch/blob/master/docs/fr/utilisation.md)
 * [License](https://github.com/JcDenis/DotclearWatch/blob/master/LICENSE)
 * [Packages & details](https://github.com/JcDenis/DotclearWatch/releases) (or on [Repository](https://dotclear.org/plugin/detail/DotclearWatch))
 * [Sources & contributions](https://github.com/JcDenis/DotclearWatch)
