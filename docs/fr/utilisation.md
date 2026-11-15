@@ -35,7 +35,7 @@ Le rapport est affiché en entier dans la page de configuration : vous voyez exa
 
 L'envoi est automatique : il se déclenche quand vous ouvrez le tableau de bord de l'administration. Un rapport n'est envoyé qu'**une fois par semaine** et par blog. Si l'envoi échoue, il est retenté au bout d'un jour.
 
-Un lien **Statistiques partagées** est affiché en bas de chaque page de l'administration : il mène au site des statistiques.
+Un lien **Statistiques partagées** est affiché en bas de chaque page de l'administration : il mène au site des statistiques. Il n'apparaît que si les rapports partent vers le serveur par défaut.
 
 ![Le pied de page de l'administration](img/pied-de-page.png)
 
@@ -87,7 +87,6 @@ Pour ne plus rien envoyer, désactivez ou désinstallez le plugin dans le gestio
 
 ## Bon à savoir
 
-* **Changer l'URL et envoyer dans la même validation** : le rapport part encore vers l'**ancienne** adresse. La nouvelle n'est utilisée qu'à partir de la page suivante. Enregistrez d'abord le changement, puis envoyez.
-* **Les modules cachés** sont enregistrés avec une virgule finale (par exemple `aboutConfig,`). Cela n'a pas d'effet sur le fonctionnement.
-* **Un serveur injoignable** n'affiche aucune erreur dans l'administration, sauf depuis la page de configuration quand vous envoyez à la main. Les échecs automatiques sont silencieux.
+* **Changer l'URL et envoyer dans la même validation** : le rapport part tout de suite vers la nouvelle adresse.
+* **Un serveur injoignable** : les envois automatiques échouent sans message sur le tableau de bord. La page de configuration affiche « Le dernier envoi a échoué : … » avec la raison de l'échec.
 * **Le rapport automatique** dépend du tableau de bord : un blog dont l'administration n'est jamais ouverte n'envoie rien.
