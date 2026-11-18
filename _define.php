@@ -22,7 +22,7 @@ $this->registerModule(
     'Dotclear Watch',
     'Send report about your Dotclear',
     'Jean-Christian Denis and contributors',
-    '1.5',
+    '1.6',
     [
         'requires'    => [['core', '2.39']],
         'permissions' => 'My',
@@ -30,6 +30,6 @@ $this->registerModule(
         'support'     => 'https://github.com/JcDenis/' . $this->id . '/issues',
         'details'     => 'https://github.com/JcDenis/' . $this->id . '/',
         'repository'  => 'https://raw.githubusercontent.com/JcDenis/' . $this->id . '/master/dcstore.xml',
-        'date'        => '2026-11-15T10:46:14+00:00',
+        'date'        => '2026-11-18T20:37:13+00:00',
     ]
 );

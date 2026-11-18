@@ -1,3 +1,7 @@
+DotclearWatch 1.6 - 2026.11.18
+===========================================================
+* [new] Send DC_MODERN state and disabled plugins in report
+
 DotclearWatch 1.5 - 2026.11.15
 ===========================================================
 * [fix] Send now with new API URL, hidden modules without trailing comma, last error shown, shared statistics link only for default API
