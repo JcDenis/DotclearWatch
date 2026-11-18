@@ -23,9 +23,10 @@ Le rapport ne contient ni nom de blog, ni adresse, ni identifiant d'utilisateur.
 
 * un numéro d'installation (UID) généré au hasard, et un numéro propre au blog ;
 * la liste des plugins et des thèmes **activés**, avec leur version ;
+* la liste des plugins installés mais **désactivés** (par vous ou par Dotclear, faute de dépendance), avec leur version ;
 * la langue et le thème du blog ;
 * le nombre de blogs de l'installation ;
-* la version de Dotclear ;
+* la version de Dotclear, et si l'option `DC_MODERN` (code ancien et obsolète non chargé) est active dans `inc/config.php` ;
 * le logiciel serveur, la version de PHP et le système ;
 * le type et la version de la base de données.
 
@@ -49,9 +50,9 @@ La page commence par rappeler que les réglages sont globaux (pour toute l'insta
 
 ## Cacher des modules
 
-Par défaut, tous les plugins et thèmes activés sont listés, sauf Dotclear Watch lui-même. Pour en cacher d'autres, écrivez leurs identifiants dans **Modules cachés**, séparés par une virgule : par exemple `aboutConfig, monPlugin`.
+Par défaut, tous les plugins (activés ou non) et thèmes activés sont listés, sauf Dotclear Watch lui-même. Pour en cacher d'autres, écrivez leurs identifiants dans **Modules cachés**, séparés par une virgule : par exemple `aboutConfig, monPlugin`.
 
-Cliquez sur **Enregistrer**. Les modules cachés disparaissent du rapport.
+Cliquez sur **Enregistrer**. Les modules cachés disparaissent du rapport, qu'ils soient activés ou désactivés.
 
 L'identifiant d'un module est celui qui est affiché entre parenthèses dans le gestionnaire de plugins ou de thèmes.
 

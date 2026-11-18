@@ -126,6 +126,31 @@ class Utils
     }
 
     /**
+     * Get disabled plugins list.
+     *
+     * Plugins disabled by the user or by the system (missing requirements),
+     * without hidden plugins.
+     *
+     * @return  array<string,string>    The disabled plugins list.
+     */
+    public static function getDisabledPlugins(): array
+    {
+        $modules = [];
+        $hiddens = self::getHiddens();
+        foreach (App::plugins()->getDefines() as $define) {
+            if ($define->get('state') === ModuleDefine::STATE_ENABLED
+                || in_array($define->getId(), $hiddens)
+                || !is_string($define->get('version'))
+            ) {
+                continue;
+            }
+            $modules[(string) $define->getId()] = $define->get('version');
+        }
+
+        return $modules;
+    }
+
+    /**
      * Get themes list.
      *
      * @param   bool    $strict     take only enabled and not hidden themes
@@ -456,8 +481,9 @@ class Utils
         return (string) json_encode([
             'uid'     => self::uid(),
             'buid'    => self::buid(),
-            'plugins' => self::getPlugins(), // enabled plugins
-            'themes'  => self::getThemes(), // enabled themes
+            'plugins'          => self::getPlugins(), // enabled plugins
+            'plugins_disabled' => self::getDisabledPlugins(), // disabled plugins
+            'themes'           => self::getThemes(), // enabled themes
             'blog'    => [
                 'lang'  => App::blog()->settings()->get('system')->getStr('lang', false),
                 'theme' => App::blog()->settings()->get('system')->getStr('theme', false),
@@ -467,6 +493,7 @@ class Utils
             ],
             'core' => [
                 'version' => App::config()->dotclearVersion(),
+                'modern'  => App::config()->modern() ? 1 : 0, // DC_MODERN
             ],
             'server' => self::getServer(),
             'php'    => [
