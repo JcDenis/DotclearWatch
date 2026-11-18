@@ -29,6 +29,7 @@ Required Dotclear and PHP versions: see `_define.php`.
 ## Pitfalls
 
 * Reports are sent through ApiServer to the author's server dotclear.watch (plugin DotclearWatchServer): a change of the report format must be done on both sides.
+* `core.modern` (DC_MODERN, Dotclear 2.39+) is always sent: the server uses it to know clients with the report format of DotclearWatch 1.6+, which also sends `plugins_disabled` (all installed plugins not enabled, hidden modules excepted).
 
 ## Testing
 
