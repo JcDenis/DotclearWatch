@@ -1,6 +1,6 @@
 # Dotclear Watch : guide d'utilisation
 
-Dotclear Watch envoie régulièrement un petit rapport anonyme sur votre installation de Dotclear à un serveur de statistiques. Le serveur par défaut est [stat.dotclear.watch](https://stat.dotclear.watch). Cela permet de savoir quelles versions de Dotclear, de PHP et quels plugins sont utilisés.
+Dotclear Watch envoie régulièrement un petit rapport anonyme sur votre installation de Dotclear à un serveur de statistiques. Le serveur par défaut est celui du site officiel, avec ses [statistiques](https://dotclear.org/statistics). Cela permet de savoir quelles versions de Dotclear, de PHP et quels plugins sont utilisés.
 
 Ce plugin n'a pas de page d'administration. Il se règle dans sa page de configuration, dans le gestionnaire de plugins.
 
@@ -58,7 +58,7 @@ L'identifiant d'un module est celui qui est affiché entre parenthèses dans le 
 
 ## Changer le serveur
 
-**URL de l'API distante** contient l'adresse du serveur qui reçoit les rapports. Par défaut : `https://dotclear.watch/api`. Vous pouvez la remplacer par un serveur à vous. Laissez le champ vide puis enregistrez pour revenir à l'adresse par défaut.
+**URL de l'API distante** contient l'adresse du serveur qui reçoit les rapports. Par défaut : `https://dotclear.org/`. Vous pouvez la remplacer par un serveur à vous. Depuis la version 1.7, l'ancienne adresse par défaut (`https://dotclear.watch/api`) est remplacée automatiquement à la mise à jour ; une adresse personnalisée est conservée. Laissez le champ vide puis enregistrez pour revenir à l'adresse par défaut.
 
 ## Voir le rapport
 

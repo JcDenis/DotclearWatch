@@ -15,7 +15,7 @@ _dotclear watch_  is a plugin for the open-source web publishing software called
 A [user guide in French](https://github.com/JcDenis/DotclearWatch/blob/master/docs/fr/utilisation.md) is available.
 
 It tracks Dotclear's installation to get stats about it.
-Default statistics server is located at https://stat.dotclear.watch
+Default statistics server is located at https://dotclear.org/statistics
 
 What's being track :
 * Dotclear version,
