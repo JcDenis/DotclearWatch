@@ -25,6 +25,9 @@ class Install
     public static function process(): bool
     {
         if (self::status()) {
+            // Current distant API URL, before default settings
+            $api_url = My::settings()->getGlobal('distant_api_url');
+
             My::settings()->put(
                 'hidden_modules',
                 'DotclearWatch',
@@ -35,12 +38,19 @@ class Install
             );
             My::settings()->put(
                 'distant_api_url',
-                'https://dotclear.watch/api',
+                Utils::DISTANT_API_URL,
                 'string',
                 'Distant API URL',
                 false,
                 true
             );
+
+            // Statistics server moved from dotclear.watch to dotclear.org: update the old default URL, keep a custom one
+            if (is_string($api_url) && in_array(rtrim(trim($api_url), '/'), Utils::OLD_API_URLS, true)) {
+                My::settings()->put('distant_api_url', Utils::DISTANT_API_URL, 'string', 'Distant API URL', true, true);
+                // Send next report of this blog to the new server without waiting for the delay
+                Utils::clearCache();
+            }
         }
 
         return self::status();

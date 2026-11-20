@@ -52,7 +52,26 @@ class Utils
      *
      * @var     string  DISTANT_API_URL
      */
-    public const DISTANT_API_URL = 'https://dotclear.watch/';
+    public const DISTANT_API_URL = 'https://dotclear.org/';
+
+    /**
+     * The old default distant blog API URLs, moved to dotclear.org.
+     *
+     * @var     array<int,string>   OLD_API_URLS
+     */
+    public const OLD_API_URLS = [
+        'https://dotclear.watch',
+        'https://dotclear.watch/api',
+        'http://dotclear.watch',
+        'http://dotclear.watch/api',
+    ];
+
+    /**
+     * The shared statistics URL of the default distant API.
+     *
+     * @var     string  STATISTICS_URL
+     */
+    public const STATISTICS_URL = 'https://dotclear.org/statistics';
 
     /**
      * The default distant API URI.

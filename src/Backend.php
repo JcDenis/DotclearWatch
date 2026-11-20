@@ -47,7 +47,7 @@ class Backend
                         (new li())->items([
                             (new Link())
                                 ->class('outgoing')
-                                ->href('https://stat.dotclear.watch')
+                                ->href(Utils::STATISTICS_URL)
                                 ->title(__('Uses DotclearWatch plugin statistics'))
                                 ->text(__('Shared statistics'))
                                 ->items([
