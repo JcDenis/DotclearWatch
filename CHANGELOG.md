@@ -1,3 +1,8 @@
+DotclearWatch 1.7 - 2026.11.20
+===========================================================
+* [change] Send reports to the new statistics server dotclear.org, old default URL updated
+* [docs] Update guide and screenshots for the server dotclear.org
+
 DotclearWatch 1.6 - 2026.11.18
 ===========================================================
 * [new] Send DC_MODERN state and disabled plugins in report
