@@ -9,7 +9,7 @@ The rules below take precedence for this module.
 
 ## Module
 
-Send report about your Dotclear It tracks Dotclear's installation to get stats about it. Default statistics server is located at https://stat.dotclear.watch.
+Send report about your Dotclear It tracks Dotclear's installation to get stats about it. Default statistics server is located at https://dotclear.org/statistics.
 
 Configuration page in the plugins manager, no admin page. Nothing on the public side.
 
@@ -28,7 +28,8 @@ Required Dotclear and PHP versions: see `_define.php`.
 
 ## Pitfalls
 
-* Reports are sent through ApiServer to the author's server dotclear.watch (plugin DotclearWatchServer): a change of the report format must be done on both sides.
+* Reports are sent through ApiServer to the official server dotclear.org (plugin DotclearWatchServer, formerly on the author's server dotclear.watch): a change of the report format must be done on both sides.
+* `src/Install.php` replaces the old default URL (`Utils::OLD_API_URLS`, dotclear.watch) by `Utils::DISTANT_API_URL`; a custom URL is kept.
 * `core.modern` (DC_MODERN, Dotclear 2.39+) is always sent: the server uses it to know clients with the report format of DotclearWatch 1.6+, which also sends `plugins_disabled` (all installed plugins not enabled, hidden modules excepted).
 
 ## Testing
