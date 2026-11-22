@@ -48,6 +48,7 @@ L10n::$locales['%d notice'] = [
 L10n::$locales['Alert'] = 'Alerte';
 L10n::$locales['Check again.'] = 'À refaire.';
 L10n::$locales['Check if the installed plugins and themes will still work with the next Dotclear version. Distributed modules are not checked. Nothing about your modules is sent.'] = 'Vérifiez si les plugins et thèmes installés fonctionneront encore avec la prochaine version de Dotclear. Les modules livrés avec Dotclear ne sont pas vérifiés. Rien de vos modules n\'est envoyé.';
+L10n::$locales['Show the compatibility audit of modules on dashboard'] = 'Afficher l’audit de compatibilité des modules sur le tableau de bord';
 L10n::$locales['Check modules'] = 'Vérifier les modules';
 L10n::$locales['Check modules now'] = 'Vérifier les modules maintenant';
 L10n::$locales['Checked on %s.'] = 'Vérifié le %s.';

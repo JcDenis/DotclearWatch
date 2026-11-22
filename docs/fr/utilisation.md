@@ -119,6 +119,8 @@ Une fois les règles reçues, le tableau de bord du super administrateur affiche
 
 ![Le résumé sur le tableau de bord](img/audit-tableau-de-bord.png)
 
+Pour masquer ce résumé, décochez **Afficher l’audit de compatibilité des modules sur le tableau de bord** dans **Mes préférences** › **Mon tableau de bord**, puis enregistrez. L'option n'apparaît que pour les super administrateurs.
+
 La vérification est une aide, pas une garantie : certains usages ne se voient pas en lisant le code. Pour un module en alerte, cherchez une nouvelle version ou prévenez son auteur.
 
 ## Arrêter l'envoi
