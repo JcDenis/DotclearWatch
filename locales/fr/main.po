@@ -57,3 +57,123 @@ msgstr "Rapport qui sera envoyé pour ce blog :"
 
 msgid "Last report failed: %s"
 msgstr "Le dernier envoi a échoué : %s"
+
+# Compatibility audit
+msgid "%1$d modules checked: %2$d with alerts (will break with the next Dotclear version), %3$d with notices (deprecated, will break later or in some cases)."
+msgstr "%1$d modules vérifiés : %2$d en alerte (casseront avec la prochaine version de Dotclear), %3$d avec des remarques (obsolète, casseront plus tard ou dans certains cas)."
+
+msgid "%d module with alerts"
+msgid_plural "%d modules with alerts"
+msgstr[0] "%d module en alerte"
+msgstr[1] "%d modules en alerte"
+
+msgid "%d with notices."
+msgid_plural "%d with notices."
+msgstr[0] "%d avec des remarques."
+msgstr[1] "%d avec des remarques."
+
+msgid "%d alert"
+msgid_plural "%d alerts"
+msgstr[0] "%d alerte"
+msgstr[1] "%d alertes"
+
+msgid "%d notice"
+msgid_plural "%d notices"
+msgstr[0] "%d remarque"
+msgstr[1] "%d remarques"
+
+msgid "Alert"
+msgstr "Alerte"
+
+msgid "Check again."
+msgstr "À refaire."
+
+msgid "Check if the installed plugins and themes will still work with the next Dotclear version. Distributed modules are not checked. Nothing about your modules is sent."
+msgstr "Vérifiez si les plugins et thèmes installés fonctionneront encore avec la prochaine version de Dotclear. Les modules livrés avec Dotclear ne sont pas vérifiés. Rien de vos modules n'est envoyé."
+
+msgid "Check modules"
+msgstr "Vérifier les modules"
+
+msgid "Check modules now"
+msgstr "Vérifier les modules maintenant"
+
+msgid "Checked on %s."
+msgstr "Vérifié le %s."
+
+msgid "Checking reads all files of the modules: it may take a while and slow down the site meanwhile."
+msgstr "La vérification lit tous les fichiers des modules : elle peut prendre un moment et ralentir le site pendant ce temps."
+
+msgid "Compatibility audit"
+msgstr "Audit de compatibilité"
+
+msgid "Compatibility with Dotclear %s"
+msgstr "Compatibilité avec Dotclear %s"
+
+msgid "Compatible"
+msgstr "Compatible"
+
+msgid "Dotclear %s requires PHP %s or later, this server uses PHP %s."
+msgstr "Dotclear %s demande PHP %s ou plus, ce serveur utilise PHP %s."
+
+msgid "Module"
+msgstr "Module"
+
+msgid "Modules have been checked."
+msgstr "Les modules ont été vérifiés."
+
+msgid "Modules have not been checked yet."
+msgstr "Les modules n'ont pas encore été vérifiés."
+
+msgid "Notice"
+msgstr "Remarque"
+
+msgid "PHP %s required, this server uses PHP %s."
+msgstr "PHP %s demandé, ce serveur utilise PHP %s."
+
+msgid "Plugin"
+msgstr "Plugin"
+
+msgid "Report sent, but the server did not answer with compatibility rules."
+msgstr "Rapport envoyé, mais le serveur n'a pas répondu avec des règles de compatibilité."
+
+msgid "Report sent, compatibility rules received."
+msgstr "Rapport envoyé, règles de compatibilité reçues."
+
+msgid "Result"
+msgstr "Résultat"
+
+msgid "Result of %s"
+msgstr "Résultat du %s"
+
+msgid "Rules of Dotclear %s (compared with %s), received on %s: %d rules."
+msgstr "Règles de Dotclear %s (comparé à %s), reçues le %s : %d règles."
+
+msgid "Rules, modules or Dotclear have changed since this check: check modules again."
+msgstr "Les règles, les modules ou Dotclear ont changé depuis cette vérification : vérifiez à nouveau les modules."
+
+msgid "See details"
+msgstr "Voir le détail"
+
+msgid "Theme"
+msgstr "Thème"
+
+msgid "There are no compatibility rules yet: send a report first."
+msgstr "Il n'y a pas encore de règles de compatibilité : envoyez d'abord un rapport."
+
+msgid "There are no compatibility rules yet: they come with the answer to the report of this Dotclear. Send a report now to get them."
+msgstr "Il n'y a pas encore de règles de compatibilité : elles arrivent avec la réponse au rapport de ce Dotclear. Envoyez un rapport maintenant pour les recevoir."
+
+msgid "Use instead:"
+msgstr "À utiliser à la place :"
+
+msgid "disabled"
+msgstr "désactivé"
+
+msgid "line %d:"
+msgstr "ligne %d :"
+
+msgid "probable"
+msgstr "probable"
+
+msgid "the module may already handle it"
+msgstr "le module le gère peut-être déjà"
