@@ -1,3 +1,7 @@
+DotclearWatch 1.10 - 2026.11.22
+===========================================================
+* [change] Audit: details of a module unfold under its line in the result table
+
 DotclearWatch 1.9 - 2026.11.22
 ===========================================================
 * [change] Show the Dotclear versions covered by the received compatibility rules
