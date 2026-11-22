@@ -109,7 +109,7 @@ Chaque module a un résultat :
 * **Remarque** (orange) : le module utilise quelque chose d'obsolète ; il cassera plus tard, ou dans certains cas ;
 * **Compatible** (vert) : rien n'a été trouvé.
 
-Le nom d'un module en alerte ou avec des remarques mène au **détail** : pour chaque fichier, la ligne, l'élément concerné, une explication (en anglais) et ce qu'il faut utiliser à la place. La mention « prévu pour Dotclear 2.45 » signale une règle de prévision, pour une version plus lointaine que la prochaine : elle compte comme une remarque jusqu'à ce que cette version devienne la prochaine. La mention « probable » signale un élément reconnu à son seul nom ; « le module le gère peut-être déjà » signale un fichier qui vérifie déjà la version de Dotclear : l'alerte devient alors une remarque.
+Le bouton ▶ devant un module en alerte ou avec des remarques déplie son **détail** sous sa ligne (celui des modules en alerte est déjà déplié, et le bouton de l'en-tête du tableau déplie ou replie tout) : pour chaque fichier, la ligne, l'élément concerné, une explication (en anglais) et ce qu'il faut utiliser à la place. La mention « prévu pour Dotclear 2.45 » signale une règle de prévision, pour une version plus lointaine que la prochaine : elle compte comme une remarque jusqu'à ce que cette version devienne la prochaine. La mention « probable » signale un élément reconnu à son seul nom ; « le module le gère peut-être déjà » signale un fichier qui vérifie déjà la version de Dotclear : l'alerte devient alors une remarque.
 
 Quand les règles, vos modules ou Dotclear changent, le résultat est marqué **à refaire** : relancez la vérification.
 
