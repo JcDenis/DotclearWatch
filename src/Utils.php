@@ -287,7 +287,9 @@ class Utils
         $params   = [
             'uid'    => self::uid(),
             'key'    => self::key(),
-            'report' => $contents
+            'report' => $contents,
+            // Ask for the compatibility rules of the next Dotclear version (ignored by older servers)
+            'rules'  => '1',
         ];
 
         // A distant server not reachable is not a PHP error: keep connection warnings as report error
@@ -341,6 +343,8 @@ class Utils
             self::error('Dotclear.watch report failed' . ($failure !== '' ? ': ' . $failure : ''));
         } elseif ((int) $rsp['code'] !== 200) {
             self::error('(' . $rsp['code'] . ') ' . $rsp['message']);
+        } elseif (isset($rsp['content']) && is_array($rsp['content']) && isset($rsp['content']['rules']) && is_array($rsp['content']['rules'])) {
+            Audit::saveRules($rsp['content']['rules']);
         }
     }
 

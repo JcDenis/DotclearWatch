@@ -4,11 +4,19 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\DotclearWatch;
 
+use ArrayObject;
 use Dotclear\App;
+use Dotclear\Core\Backend\Menus;
+use Dotclear\Helper\Date;
 use Dotclear\Helper\Process\TraitProcess;
+use Dotclear\Helper\Html\Form\Fieldset;
 use Dotclear\Helper\Html\Form\Img;
+use Dotclear\Helper\Html\Form\Legend;
+use Dotclear\Helper\Html\Form\Para;
+use Dotclear\Helper\Html\Form\Text;
 use Dotclear\Helper\Html\Form\Li;
 use Dotclear\Helper\Html\Form\Link;
+use Dotclear\Helper\Html\Form\None;
 use Dotclear\Helper\Html\Form\Ul;
 
 /**
@@ -33,10 +41,50 @@ class Backend
             return false;
         }
 
+        // Compatibility audit page (super admin)
+        My::addBackendMenuItem(Menus::MENU_SYSTEM);
+
         App::behavior()->addBehaviors([
             // Add JS for asynchronous report sending
             'adminDashboardHeaders' => function (): string {
-                return My::jsLoad('service', App::version()->getVersion(My::id()));
+                return My::jsLoad('service', App::version()->getVersion(My::id())) .
+                    (My::checkContext(My::MANAGE) ? My::cssLoad('manage') : '');
+            },
+            // Compatibility audit on dashboard (super admin, once rules are received)
+            'adminDashboardItemsV2' => function (ArrayObject $__dashboard_items): void {
+                if (!My::checkContext(My::MANAGE) || ($rules = Audit::getRules()) === null) {
+                    return;
+                }
+                $result = Audit::getResult();
+                $tz     = is_string(App::auth()->getInfo('user_tz')) ? App::auth()->getInfo('user_tz') : '';
+                $next   = $rules['dotclear']['next'] ?? '';
+                $php    = Audit::checkPhp();
+
+                if (!is_array($__dashboard_items[0])) {
+                    $__dashboard_items[0] = [];
+                }
+                $__dashboard_items[0][] = (new Fieldset(My::id() . '_audit'))
+                    ->legend(new Legend((new Img(My::icons()[0]))->class('icon-small')->render() . ' ' . sprintf(__('Compatibility with Dotclear %s'), $next)))
+                    ->class('box small')
+                    ->items([
+                        $php !== null ?
+                            (new Text('p', sprintf(__('PHP %s required, this server uses PHP %s.'), $rules['dotclear']['php_min'] ?? '', PHP_VERSION)))->class('warn') :
+                            (new None()),
+                        $result === null ?
+                            (new Text('p', __('Modules have not been checked yet.'))) :
+                            (new Para())->items([
+                                Manage::badge($result['alerts'] > 0 ? Audit::ALERT : ($result['notices'] > 0 ? Audit::NOTICE : 'ok')),
+                                (new Text(null, ' ' . sprintf(__('%d module with alerts', '%d modules with alerts', $result['alerts']), $result['alerts']) . ', ' . sprintf(__('%d with notices.', '%d with notices.', $result['notices']), $result['notices']))),
+                                (new Text(null, '<br>' . sprintf(__('Checked on %s.'), Date::str(__('%Y-%m-%d %H:%M'), $result['date'], $tz)))),
+                                (new Text(null, $result['outdated'] ? ' <strong>' . __('Check again.') . '</strong>' : '')),
+                            ]),
+                        (new Para())->items([
+                            (new Link())
+                                ->href(My::manageUrl())
+                                ->text($result === null ? __('Check modules') : __('See details')),
+                        ]),
+                    ])
+                    ->render();
             },
             // Add icon on bottom of dashboard sidebar menu
             'adminPageFooterV2' => function (): void {
