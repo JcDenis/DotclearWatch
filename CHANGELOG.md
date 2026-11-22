@@ -1,3 +1,7 @@
+DotclearWatch 1.10.1 - 2026.11.22
+===========================================================
+* [new] Audit: option to show or hide the compatibility audit on dashboard (user preferences, super admin)
+
 DotclearWatch 1.10 - 2026.11.22
 ===========================================================
 * [change] Audit: details of a module unfold under its line in the result table
