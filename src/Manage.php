@@ -292,6 +292,9 @@ class Manage
                 if (!empty($f['guarded'])) {
                     $markers[] = __('the module may already handle it');
                 }
+                if (!empty($f['forecast'])) {
+                    $markers[] = sprintf(__('planned for Dotclear %s'), $str('since'));
+                }
                 $items[] = (new Li())->items([
                     self::badge($str('level')),
                     (new Text(null, ' ' . sprintf(__('line %d:'), (int) $str('line')) . ' <code>' . Html::escapeHTML($str('symbol')) . '</code>')),

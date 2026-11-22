@@ -177,3 +177,6 @@ msgstr "probable"
 
 msgid "the module may already handle it"
 msgstr "le module le gère peut-être déjà"
+
+msgid "planned for Dotclear %s"
+msgstr "prévu pour Dotclear %s"

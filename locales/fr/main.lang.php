@@ -77,3 +77,4 @@ L10n::$locales['disabled'] = 'désactivé';
 L10n::$locales['line %d:'] = 'ligne %d :';
 L10n::$locales['probable'] = 'probable';
 L10n::$locales['the module may already handle it'] = 'le module le gère peut-être déjà';
+L10n::$locales['planned for Dotclear %s'] = 'prévu pour Dotclear %s';
