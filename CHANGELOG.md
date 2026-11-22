@@ -1,3 +1,10 @@
+DotclearWatch 1.9 - 2026.11.22
+===========================================================
+* [change] Show the Dotclear versions covered by the received compatibility rules
+* [new] Audit: php rules with a pattern, forecasts of later Dotclear versions shown as notices
+* [docs] Forecast rules in the user guide
+* [docs] Php rules and forecasts in the admin help
+
 DotclearWatch 1.8 - 2026.11.22
 ===========================================================
 * [new] Compatibility audit of modules with the next Dotclear version
