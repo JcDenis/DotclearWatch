@@ -10,7 +10,6 @@ use Dotclear\Core\Backend\Page;
 use Dotclear\Helper\Date;
 use Dotclear\Helper\Process\TraitProcess;
 use Dotclear\Helper\Html\Form\{
-    Details,
     Div,
     Form,
     Li,
@@ -18,7 +17,6 @@ use Dotclear\Helper\Html\Form\{
     Para,
     Span,
     Submit,
-    Summary,
     Table,
     Td,
     Text,
@@ -85,7 +83,7 @@ class Manage
             return;
         }
 
-        Page::openModule(My::name(), My::cssLoad('manage'));
+        Page::openModule(My::name(), My::cssLoad('manage') . My::jsLoad('manage'));
 
         echo Page::breadcrumb(
             [
@@ -168,17 +166,16 @@ class Manage
 
             echo (new Text('p', self::summary($result['alerts'], $result['notices'], count($result['results']))))->render();
 
-            $rows    = [];
-            $details = [];
+            $rows = [];
             foreach ($result['results'] as $module) {
                 $rows[] = self::row($module);
                 if (!empty($module['findings']) && is_array($module['findings'])) {
-                    $details[] = self::details($module);
+                    $rows[] = self::details($module);
                 }
             }
 
             echo (new Div())->class('table-outer')->items([
-                (new Table())->class('dcw-modules')->items([
+                (new Table('dcw-modules'))->class('dcw-modules')->items([
                     (new Thead())->items([
                         (new Tr())->items([
                             (new Th())->scope('col')->class('first')->text(__('Module')),
@@ -190,13 +187,6 @@ class Manage
                     (new Tbody())->items($rows),
                 ]),
             ])->render();
-
-            if ($details !== []) {
-                echo (new Text('h3', __('Details')))->render();
-                foreach ($details as $detail) {
-                    echo $detail->render();
-                }
-            }
         }
 
         Page::helpBlock('DotclearWatch');
@@ -247,9 +237,14 @@ class Manage
             $count[] = sprintf(__('%d notice', '%d notices', (int) $module['notices']), (int) $module['notices']);
         }
 
-        return (new Tr())->class('line' . (empty($module['enabled']) ? ' offline' : ''))->items([
+        $line = (new Tr())->class('line' . (empty($module['enabled']) ? ' offline' : '') . (empty($module['findings']) ? '' : ' dcw-line dcw-line-' . $level));
+        if (!empty($module['findings'])) {
+            $line->id('dcw-' . $type . '-' . $id);
+        }
+
+        return $line->items([
             (new Td())->class('maximal')->items([
-                (new Text(null, $level === 'ok' ? Html::escapeHTML($name) : '<a href="#dcw-' . Html::escapeHTML($type . '-' . $id) . '">' . Html::escapeHTML($name) . '</a>')),
+                (new Text(null, Html::escapeHTML($name))),
                 (new Text(null, ' <code>' . Html::escapeHTML($id) . '</code>')),
                 (new Text(null, empty($module['enabled']) ? ' (' . __('disabled') . ')' : '')),
             ]),
@@ -263,16 +258,14 @@ class Manage
     }
 
     /**
-     * Get the details of a module, findings grouped by file.
+     * Get the details line of a module, findings grouped by file.
      *
      * @param   array<mixed>    $module
      */
-    private static function details(array $module): Details
+    private static function details(array $module): Tr
     {
         $id     = is_string($module['id'] ?? null) ? $module['id'] : '';
         $type   = is_string($module['type'] ?? null) ? $module['type'] : '';
-        $name   = is_string($module['name'] ?? null) ? $module['name'] : $id;
-        $level  = is_string($module['level'] ?? null) ? $module['level'] : 'ok';
         $byfile = [];
         foreach ((array) ($module['findings'] ?? []) as $f) {
             if (is_array($f)) {
@@ -309,9 +302,10 @@ class Manage
             ]);
         }
 
-        return (new Details('dcw-' . $type . '-' . $id))
-            ->open($level === Audit::ALERT)
-            ->summary(new Summary(Html::escapeHTML($name . ' ' . (is_string($module['version'] ?? null) ? $module['version'] : ''))))
-            ->items($files);
+        return (new Tr('dcw-' . $type . '-' . $id . '-details'))
+            ->class('dcw-details')
+            ->items([
+                (new Td())->colspan(4)->class('expand')->items($files),
+            ]);
     }
 }
