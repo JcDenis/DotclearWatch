@@ -66,7 +66,7 @@ L10n::$locales['Report sent, but the server did not answer with compatibility ru
 L10n::$locales['Report sent, compatibility rules received.'] = 'Rapport envoyé, règles de compatibilité reçues.';
 L10n::$locales['Result'] = 'Résultat';
 L10n::$locales['Result of %s'] = 'Résultat du %s';
-L10n::$locales['Rules of Dotclear %s (compared with %s), received on %s: %d rules.'] = 'Règles de Dotclear %s (comparé à %s), reçues le %s : %d règles.';
+L10n::$locales['Rules to go from your Dotclear %1$s to Dotclear %2$s, received on %3$s: %4$d rules.'] = 'Règles pour passer de votre Dotclear %1$s à Dotclear %2$s, reçues le %3$s : %4$d règles.';
 L10n::$locales['Rules, modules or Dotclear have changed since this check: check modules again.'] = 'Les règles, les modules ou Dotclear ont changé depuis cette vérification : vérifiez à nouveau les modules.';
 L10n::$locales['See details'] = 'Voir le détail';
 L10n::$locales['Theme'] = 'Thème';
