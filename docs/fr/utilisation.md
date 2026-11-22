@@ -2,7 +2,7 @@
 
 Dotclear Watch envoie régulièrement un petit rapport anonyme sur votre installation de Dotclear à un serveur de statistiques. Le serveur par défaut est celui du site officiel, avec ses [statistiques](https://dotclear.org/statistics). Cela permet de savoir quelles versions de Dotclear, de PHP et quels plugins sont utilisés.
 
-Ce plugin n'a pas de page d'administration. Il se règle dans sa page de configuration, dans le gestionnaire de plugins.
+Il se règle dans sa page de configuration, dans le gestionnaire de plugins. Sa page d'administration, réservée au super administrateur, vérifie si vos plugins et thèmes fonctionneront encore avec la prochaine version de Dotclear (audit de compatibilité).
 
 ## Sommaire
 
@@ -14,8 +14,9 @@ Ce plugin n'a pas de page d'administration. Il se règle dans sa page de configu
 6. [Voir le rapport](#voir-le-rapport)
 7. [Envoyer le rapport tout de suite](#envoyer-le-rapport-tout-de-suite)
 8. [Vider le cache des rapports](#vider-le-cache-des-rapports)
-9. [Arrêter l'envoi](#arrêter-lenvoi)
-10. [Bon à savoir](#bon-à-savoir)
+9. [Audit de compatibilité](#audit-de-compatibilité)
+10. [Arrêter l'envoi](#arrêter-lenvoi)
+11. [Bon à savoir](#bon-à-savoir)
 
 ## Ce qui est envoyé
 
@@ -82,9 +83,47 @@ Les réglages saisis dans la page sont enregistrés dans tous les cas.
 
 Le dernier rapport de chaque blog est gardé dans les journaux de Dotclear. Cochez **Nettoyer le répertoire de cache des rapports** puis **Enregistrer** pour tout effacer. Le prochain passage sur le tableau de bord enverra un nouveau rapport.
 
+## Audit de compatibilité
+
+En réponse au rapport, le serveur envoie les **règles de compatibilité** de la prochaine version de Dotclear : ce qui va disparaître ou changer dans le code de Dotclear. Avec ces règles, Dotclear Watch peut lire le code de vos plugins et thèmes, sur votre serveur, et vous dire lesquels risquent de casser. Le code de vos modules n'est jamais envoyé.
+
+Ouvrez **Système > Dotclear Watch** (super administrateur seulement).
+
+![La page de l'audit de compatibilité](img/audit-compatibilite.png)
+
+### Recevoir les règles
+
+Les règles arrivent avec le rapport hebdomadaire. Tant qu'elles ne sont pas arrivées, la page le dit : cliquez sur **Envoyer le rapport maintenant** pour les recevoir tout de suite. La page indique ensuite la version de Dotclear visée, la date de réception et le nombre de règles.
+
+Si la prochaine version de Dotclear demande une version de PHP plus récente que celle de votre serveur, un avertissement l'indique en haut de la page et sur le tableau de bord.
+
+### Vérifier les modules
+
+Cliquez sur **Vérifier les modules maintenant**. La vérification lit tous les fichiers des plugins et thèmes installés : elle peut prendre un moment. Elle ne se lance jamais toute seule, pour ne pas ralentir votre site. Les modules livrés avec Dotclear ne sont pas vérifiés : ils sont mis à jour avec Dotclear.
+
+### Lire le résultat
+
+Chaque module a un résultat :
+
+* **Alerte** (rouge) : le module cassera avec la prochaine version de Dotclear ;
+* **Remarque** (orange) : le module utilise quelque chose d'obsolète ; il cassera plus tard, ou dans certains cas ;
+* **Compatible** (vert) : rien n'a été trouvé.
+
+Le nom d'un module en alerte ou avec des remarques mène au **détail** : pour chaque fichier, la ligne, l'élément concerné, une explication (en anglais) et ce qu'il faut utiliser à la place. La mention « probable » signale un élément reconnu à son seul nom ; « le module le gère peut-être déjà » signale un fichier qui vérifie déjà la version de Dotclear : l'alerte devient alors une remarque.
+
+Quand les règles, vos modules ou Dotclear changent, le résultat est marqué **à refaire** : relancez la vérification.
+
+### Sur le tableau de bord
+
+Une fois les règles reçues, le tableau de bord du super administrateur affiche un résumé : nombre de modules en alerte et avec des remarques, date de la vérification, et un lien vers le détail.
+
+![Le résumé sur le tableau de bord](img/audit-tableau-de-bord.png)
+
+La vérification est une aide, pas une garantie : certains usages ne se voient pas en lisant le code. Pour un module en alerte, cherchez une nouvelle version ou prévenez son auteur.
+
 ## Arrêter l'envoi
 
-Pour ne plus rien envoyer, désactivez ou désinstallez le plugin dans le gestionnaire de plugins. Désinstaller supprime aussi ses réglages.
+Pour ne plus rien envoyer, désactivez ou désinstallez le plugin dans le gestionnaire de plugins. Désinstaller supprime aussi ses réglages, les règles reçues et le résultat de l'audit.
 
 ## Bon à savoir
 

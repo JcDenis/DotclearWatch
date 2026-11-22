@@ -26,6 +26,11 @@ What's being track :
 * List of installed modules (only id and version)
 * Number of blogs. (no name or id or whatever else)
 
+In return, the server sends the compatibility rules of the next Dotclear version.
+From the admin page of the plugin (super admin), installed plugins and themes are checked against these rules,
+on your server only: modules that will break (alerts) or use deprecated code (notices), with the file, line and replacement.
+A summary is shown on the dashboard.
+
 If you want to hide some modules, just enter their IDs in a comma separeted list 
 in aboutConfig global parameters called DotclearWatch->hidden_modules
 
