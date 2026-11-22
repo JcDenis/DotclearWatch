@@ -113,9 +113,9 @@ class Manage
             echo (new Note())
                 ->class('form-note')
                 ->text(sprintf(
-                    __('Rules of Dotclear %s (compared with %s), received on %s: %d rules.'),
+                    __('Rules to go from your Dotclear %1$s to Dotclear %2$s, received on %3$s: %4$d rules.'),
+                    Html::escapeHTML(App::config()->dotclearVersion()),
                     Html::escapeHTML($next),
-                    Html::escapeHTML($rules['dotclear']['stable'] ?? '?'),
                     Date::str(__('%Y-%m-%d %H:%M'), $rules['date'], $tz),
                     count($rules['rules'])
                 ))

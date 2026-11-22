@@ -145,8 +145,8 @@ msgstr "Résultat"
 msgid "Result of %s"
 msgstr "Résultat du %s"
 
-msgid "Rules of Dotclear %s (compared with %s), received on %s: %d rules."
-msgstr "Règles de Dotclear %s (comparé à %s), reçues le %s : %d règles."
+msgid "Rules to go from your Dotclear %1$s to Dotclear %2$s, received on %3$s: %4$d rules."
+msgstr "Règles pour passer de votre Dotclear %1$s à Dotclear %2$s, reçues le %3$s : %4$d règles."
 
 msgid "Rules, modules or Dotclear have changed since this check: check modules again."
 msgstr "Les règles, les modules ou Dotclear ont changé depuis cette vérification : vérifiez à nouveau les modules."
