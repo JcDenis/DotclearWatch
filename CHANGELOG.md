@@ -1,3 +1,9 @@
+DotclearWatch 1.8 - 2026.11.22
+===========================================================
+* [new] Compatibility audit of modules with the next Dotclear version
+* [lang] French translation of the compatibility audit
+* [docs] Compatibility audit in the user guide and README
+
 DotclearWatch 1.7 - 2026.11.20
 ===========================================================
 * [change] Send reports to the new statistics server dotclear.org, old default URL updated
