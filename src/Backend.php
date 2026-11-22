@@ -9,8 +9,10 @@ use Dotclear\App;
 use Dotclear\Core\Backend\Menus;
 use Dotclear\Helper\Date;
 use Dotclear\Helper\Process\TraitProcess;
+use Dotclear\Helper\Html\Form\Checkbox;
 use Dotclear\Helper\Html\Form\Fieldset;
 use Dotclear\Helper\Html\Form\Img;
+use Dotclear\Helper\Html\Form\Label;
 use Dotclear\Helper\Html\Form\Legend;
 use Dotclear\Helper\Html\Form\Para;
 use Dotclear\Helper\Html\Form\Text;
@@ -52,7 +54,7 @@ class Backend
             },
             // Compatibility audit on dashboard (super admin, once rules are received)
             'adminDashboardItemsV2' => function (ArrayObject $__dashboard_items): void {
-                if (!My::checkContext(My::MANAGE) || ($rules = Audit::getRules()) === null) {
+                if (!My::checkContext(My::MANAGE) || !self::showAudit() || ($rules = Audit::getRules()) === null) {
                     return;
                 }
                 $result = Audit::getResult();
@@ -85,6 +87,28 @@ class Backend
                         ]),
                     ])
                     ->render();
+            },
+            // Show or hide the compatibility audit on dashboard (user preferences, super admin)
+            'adminDashboardOptionsFormV2' => function (): void {
+                if (!My::checkContext(My::MANAGE)) {
+                    return;
+                }
+                echo (new Fieldset(My::id() . '_prefs'))
+                    ->legend(new Legend((new Img(My::icons()[0]))->class('icon-small')->render() . ' ' . My::name()))
+                    ->items([
+                        (new Para())->items([
+                            (new Checkbox(My::id() . '_dashboard_audit', self::showAudit()))
+                                ->value(1)
+                                ->label(new Label(__('Show the compatibility audit of modules on dashboard'), Label::IL_FT)),
+                        ]),
+                    ])
+                    ->render();
+            },
+            'adminAfterDashboardOptionsUpdate' => function (?string $user_id): void {
+                if (!My::checkContext(My::MANAGE)) {
+                    return;
+                }
+                My::prefs()->put('dashboard_audit', !empty($_POST[My::id() . '_dashboard_audit']), 'boolean');
             },
             // Add icon on bottom of dashboard sidebar menu
             'adminPageFooterV2' => function (): void {
@@ -121,5 +145,13 @@ class Backend
         );
 
         return true;
+    }
+
+    /**
+     * Check if the compatibility audit is shown on dashboard (shown until the user hides it).
+     */
+    private static function showAudit(): bool
+    {
+        return My::prefs()->get('dashboard_audit') !== false;
     }
 }

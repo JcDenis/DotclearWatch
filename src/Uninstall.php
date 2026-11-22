@@ -50,6 +50,11 @@ class Uninstall
                 'delete',
                 My::id()
             )
+            ->addUserAction(
+                'preferences',
+                'delete_all',
+                My::id()
+            )
             ->addDirectAction(
                 'settings',
                 'delete_all',
@@ -68,6 +73,11 @@ class Uninstall
             ->addDirectAction(
                 'vars',
                 'delete',
+                My::id()
+            )
+            ->addDirectAction(
+                'preferences',
+                'delete_all',
                 My::id()
             )
         ;

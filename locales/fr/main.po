@@ -91,6 +91,9 @@ msgstr "À refaire."
 msgid "Check if the installed plugins and themes will still work with the next Dotclear version. Distributed modules are not checked. Nothing about your modules is sent."
 msgstr "Vérifiez si les plugins et thèmes installés fonctionneront encore avec la prochaine version de Dotclear. Les modules livrés avec Dotclear ne sont pas vérifiés. Rien de vos modules n'est envoyé."
 
+msgid "Show the compatibility audit of modules on dashboard"
+msgstr "Afficher l’audit de compatibilité des modules sur le tableau de bord"
+
 msgid "Check modules"
 msgstr "Vérifier les modules"
 
