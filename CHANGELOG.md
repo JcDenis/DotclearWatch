@@ -1,3 +1,7 @@
+DotclearWatch 1.10.2 - 2026.11.25
+===========================================================
+* [new] Report loaded PHP extensions and their versions
+
 DotclearWatch 1.10.1 - 2026.11.22
 ===========================================================
 * [new] Audit: option to show or hide the compatibility audit on dashboard (user preferences, super admin)
