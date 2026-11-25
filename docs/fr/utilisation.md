@@ -28,7 +28,7 @@ Le rapport ne contient ni nom de blog, ni adresse, ni identifiant d'utilisateur.
 * la langue et le thème du blog ;
 * le nombre de blogs de l'installation ;
 * la version de Dotclear, et si l'option `DC_MODERN` (code ancien et obsolète non chargé) est active dans `inc/config.php` ;
-* le logiciel serveur, la version de PHP et le système ;
+* le logiciel serveur, la version de PHP, les extensions PHP chargées (avec leur version) et le système ;
 * le type et la version de la base de données.
 
 Le rapport est affiché en entier dans la page de configuration : vous voyez exactement ce qui part.
